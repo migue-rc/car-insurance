@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.35">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>qa</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./https://migue-rc.github.io/favicon.ico" rel="icon">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-3f230b53dc93e4a04bf4a3505d77a42a.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-f15b340ce8f0423c543d2dad9c318318.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-3f230b53dc93e4a04bf4a3505d77a42a.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-22e386d673eb27a037a9ab8590791d54.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-df7de8fec9041e4cf553be1fa0c04d3f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-22e386d673eb27a037a9ab8590791d54.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="stylesheet" href="https://migue-rc.github.io/brand-theme.css">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="local-style.css">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://migue-rc.github.io"> 
+<span class="menu-text">← Back to Main</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-scientist-interview-prep-qa-cheat-sheet" id="toc-data-scientist-interview-prep-qa-cheat-sheet" class="nav-link active" data-scroll-target="#data-scientist-interview-prep-qa-cheat-sheet">Data Scientist Interview Prep: Q&amp;A Cheat Sheet</a>
+  <ul class="collapse">
+  <li><a href="#automotive-insurance-risk-modeling-telematics-analytics" id="toc-automotive-insurance-risk-modeling-telematics-analytics" class="nav-link" data-scroll-target="#automotive-insurance-risk-modeling-telematics-analytics">Automotive Insurance Risk Modeling &amp; Telematics Analytics</a></li>
+  <li><a href="#the-opening-pitch-the-60-second-tell-me-about-this-project" id="toc-the-opening-pitch-the-60-second-tell-me-about-this-project" class="nav-link" data-scroll-target="#the-opening-pitch-the-60-second-tell-me-about-this-project">0. The Opening Pitch (The 60-Second “Tell Me About This Project”)</a></li>
+  <li><a href="#part-1-business-context-insurance-economics" id="toc-part-1-business-context-insurance-economics" class="nav-link" data-scroll-target="#part-1-business-context-insurance-economics">Part 1: Business Context &amp; Insurance Economics</a>
+  <ul class="collapse">
+  <li><a href="#q1-an-auc-of-0.65-seems-modest.-why-couldnt-you-achieve-0.85-or-0.90" id="toc-q1-an-auc-of-0.65-seems-modest.-why-couldnt-you-achieve-0.85-or-0.90" class="nav-link" data-scroll-target="#q1-an-auc-of-0.65-seems-modest.-why-couldnt-you-achieve-0.85-or-0.90">Q1: “An AUC of 0.65 seems modest. Why couldn’t you achieve 0.85 or 0.90?”</a></li>
+  <li><a href="#q2-your-precision-is-only-9.-how-does-an-insurance-company-monetize-a-model-that-is-wrong-91-of-the-time" id="toc-q2-your-precision-is-only-9.-how-does-an-insurance-company-monetize-a-model-that-is-wrong-91-of-the-time" class="nav-link" data-scroll-target="#q2-your-precision-is-only-9.-how-does-an-insurance-company-monetize-a-model-that-is-wrong-91-of-the-time">Q2: “Your precision is only 9%. How does an insurance company monetize a model that is wrong 91% of the time?”</a></li>
+  <li><a href="#q3-why-did-safety-tech-like-brake-assist-is_brake_assist_yes-show-a-positive-coefficient-for-claim-risk-0.09" id="toc-q3-why-did-safety-tech-like-brake-assist-is_brake_assist_yes-show-a-positive-coefficient-for-claim-risk-0.09" class="nav-link" data-scroll-target="#q3-why-did-safety-tech-like-brake-assist-is_brake_assist_yes-show-a-positive-coefficient-for-claim-risk-0.09">Q3: “Why did safety tech like Brake Assist (<code>is_brake_assist_Yes</code>) show a positive coefficient for claim risk (+0.09)?”</a></li>
+  <li><a href="#q4-why-did-vehicle-age-age_of_car-have-a-massive-negative-coefficient--3.53" id="toc-q4-why-did-vehicle-age-age_of_car-have-a-massive-negative-coefficient--3.53" class="nav-link" data-scroll-target="#q4-why-did-vehicle-age-age_of_car-have-a-massive-negative-coefficient--3.53">Q4: “Why did vehicle age (<code>age_of_car</code>) have a massive negative coefficient (-3.53)?”</a></li>
+  <li><a href="#q5-why-does-longer-policy-tenure-increase-claim-risk-0.85" id="toc-q5-why-does-longer-policy-tenure-increase-claim-risk-0.85" class="nav-link" data-scroll-target="#q5-why-does-longer-policy-tenure-increase-claim-risk-0.85">Q5: “Why does longer policy tenure increase claim risk (+0.85)?”</a></li>
+  </ul></li>
+  <li><a href="#part-2-statistical-machine-learning-rigor" id="toc-part-2-statistical-machine-learning-rigor" class="nav-link" data-scroll-target="#part-2-statistical-machine-learning-rigor">Part 2: Statistical &amp; Machine Learning Rigor</a>
+  <ul class="collapse">
+  <li><a href="#q6-why-use-variance-inflation-factor-vif-instead-of-just-checking-a-correlation-heatmap" id="toc-q6-why-use-variance-inflation-factor-vif-instead-of-just-checking-a-correlation-heatmap" class="nav-link" data-scroll-target="#q6-why-use-variance-inflation-factor-vif-instead-of-just-checking-a-correlation-heatmap">Q6: “Why use Variance Inflation Factor (VIF) instead of just checking a correlation heatmap?”</a></li>
+  <li><a href="#q7-why-use-stepwise-logistic-regression-if-you-were-going-to-use-histgradientboosting-anyway" id="toc-q7-why-use-stepwise-logistic-regression-if-you-were-going-to-use-histgradientboosting-anyway" class="nav-link" data-scroll-target="#q7-why-use-stepwise-logistic-regression-if-you-were-going-to-use-histgradientboosting-anyway">Q7: “Why use Stepwise Logistic Regression if you were going to use HistGradientBoosting anyway?”</a></li>
+  <li><a href="#q8-how-does-your-stepwise-selection-algorithm-decide-when-to-stop" id="toc-q8-how-does-your-stepwise-selection-algorithm-decide-when-to-stop" class="nav-link" data-scroll-target="#q8-how-does-your-stepwise-selection-algorithm-decide-when-to-stop">Q8: “How does your Stepwise Selection algorithm decide when to stop?”</a></li>
+  <li><a href="#q9-how-did-you-ensure-there-was-no-data-leakage-in-your-cross-validation-pipeline" id="toc-q9-how-did-you-ensure-there-was-no-data-leakage-in-your-cross-validation-pipeline" class="nav-link" data-scroll-target="#q9-how-did-you-ensure-there-was-no-data-leakage-in-your-cross-validation-pipeline">Q9: “How did you ensure there was no data leakage in your cross-validation pipeline?”</a></li>
+  <li><a href="#q10-why-did-youdens-j-threshold-land-at-0.496-instead-of-something-like-0.10" id="toc-q10-why-did-youdens-j-threshold-land-at-0.496-instead-of-something-like-0.10" class="nav-link" data-scroll-target="#q10-why-did-youdens-j-threshold-land-at-0.496-instead-of-something-like-0.10">Q10: “Why did Youden’s J threshold land at 0.496 instead of something like 0.10?”</a></li>
+  </ul></li>
+  <li><a href="#part-3-unsupervised-telematics-project-2" id="toc-part-3-unsupervised-telematics-project-2" class="nav-link" data-scroll-target="#part-3-unsupervised-telematics-project-2">Part 3: Unsupervised Telematics (Project 2)</a>
+  <ul class="collapse">
+  <li><a href="#q11-in-project-2-if-you-already-had-ground-truth-labels-driver_label-why-did-you-treat-it-as-an-unsupervised-problem" id="toc-q11-in-project-2-if-you-already-had-ground-truth-labels-driver_label-why-did-you-treat-it-as-an-unsupervised-problem" class="nav-link" data-scroll-target="#q11-in-project-2-if-you-already-had-ground-truth-labels-driver_label-why-did-you-treat-it-as-an-unsupervised-problem">Q11: “In Project 2, if you already had ground truth labels (<code>driver_label</code>), why did you treat it as an unsupervised problem?”</a></li>
+  <li><a href="#q12-how-did-pca-compress-8-sensor-channels-into-3-dimensions-what-do-they-mean-physically" id="toc-q12-how-did-pca-compress-8-sensor-channels-into-3-dimensions-what-do-they-mean-physically" class="nav-link" data-scroll-target="#q12-how-did-pca-compress-8-sensor-channels-into-3-dimensions-what-do-they-mean-physically">Q12: “How did PCA compress 8+ sensor channels into 3 dimensions? What do they mean physically?”</a></li>
+  <li><a href="#q13-an-adjusted-rand-score-ari-of-1.00-0.999-is-almost-suspiciously-high.-whats-the-catch" id="toc-q13-an-adjusted-rand-score-ari-of-1.00-0.999-is-almost-suspiciously-high.-whats-the-catch" class="nav-link" data-scroll-target="#q13-an-adjusted-rand-score-ari-of-1.00-0.999-is-almost-suspiciously-high.-whats-the-catch">Q13: “An Adjusted Rand Score (ARI) of 1.00 / 0.999 is almost suspiciously high. What’s the catch?”</a></li>
+  <li><a href="#q14-if-a-fleet-client-could-only-afford-to-install-two-sensors-to-save-budget-which-two-would-you-recommend" id="toc-q14-if-a-fleet-client-could-only-afford-to-install-two-sensors-to-save-budget-which-two-would-you-recommend" class="nav-link" data-scroll-target="#q14-if-a-fleet-client-could-only-afford-to-install-two-sensors-to-save-budget-which-two-would-you-recommend">Q14: “If a fleet client could only afford to install two sensors to save budget, which two would you recommend?”</a></li>
+  </ul></li>
+  <li><a href="#part-4-production-architecture-mlops" id="toc-part-4-production-architecture-mlops" class="nav-link" data-scroll-target="#part-4-production-architecture-mlops">Part 4: Production Architecture &amp; MLOps</a>
+  <ul class="collapse">
+  <li><a href="#q15-how-would-you-deploy-these-two-pipelines-into-production" id="toc-q15-how-would-you-deploy-these-two-pipelines-into-production" class="nav-link" data-scroll-target="#q15-how-would-you-deploy-these-two-pipelines-into-production">Q15: “How would you deploy these two pipelines into production?”</a></li>
+  <li><a href="#q16-how-would-you-monitor-these-models-in-production" id="toc-q16-how-would-you-monitor-these-models-in-production" class="nav-link" data-scroll-target="#q16-how-would-you-monitor-these-models-in-production">Q16: “How would you monitor these models in production?”</a></li>
+  </ul></li>
+  <li><a href="#part-5-3-smart-questions-you-should-ask-the-interviewer" id="toc-part-5-3-smart-questions-you-should-ask-the-interviewer" class="nav-link" data-scroll-target="#part-5-3-smart-questions-you-should-ask-the-interviewer">Part 5: 3 Smart Questions YOU Should Ask the Interviewer</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+
+<section id="data-scientist-interview-prep-qa-cheat-sheet" class="level1">
+<h1>Data Scientist Interview Prep: Q&amp;A Cheat Sheet</h1>
+<section id="automotive-insurance-risk-modeling-telematics-analytics" class="level2">
+<h2 class="anchored" data-anchor-id="automotive-insurance-risk-modeling-telematics-analytics">Automotive Insurance Risk Modeling &amp; Telematics Analytics</h2>
+<p>Use this document to prepare for your presentation. It covers high-probability questions categorized by <strong>Business Strategy</strong>, <strong>Statistical Rigor</strong>, <strong>Machine Learning Methodology</strong>, and <strong>Production Engineering</strong>, complete with winning, defensible responses.</p>
+<hr>
+</section>
+<section id="the-opening-pitch-the-60-second-tell-me-about-this-project" class="level2">
+<h2 class="anchored" data-anchor-id="the-opening-pitch-the-60-second-tell-me-about-this-project">0. The Opening Pitch (The 60-Second “Tell Me About This Project”)</h2>
+<blockquote class="blockquote">
+<p><em>“This portfolio tackles two of the most critical challenges in the automotive and insurance industries: <strong>risk pricing under extreme class imbalance</strong> and <strong>unsupervised driver profiling from IoT telematics</strong>.</em></p>
+<p><em>In <strong>Project 1</strong>, we modeled auto insurance claim risk on 58,500+ policies where only 6% filed a claim. We eliminated 56 collinear features using iterative VIF, used Stepwise Logistic Regression to extract auditable risk factors for actuaries, and tuned a boosted tree ensemble to capture <strong>68% of actual claims</strong> while isolating a high-risk group filing at <strong>1.5× the average rate</strong>.</em></p>
+<p><em>In <strong>Project 2</strong>, we recognized that static demographic forms hit an honest ceiling around ~0.65 AUC. To break through, insurers need behavioral data. We engineered an unsupervised pipeline that compresses high-frequency sensor streams into 3 physical dimensions—Aggression, Distraction, and Steering Geometry—via PCA (80% variance explained). Using K-Means, we proved that unsupervised geometry autonomously recovers driver risk profiles with <strong>0.999 out-of-sample ARI</strong> against withheld ground truth.</em></p>
+<p><em>Together, they illustrate how an insurer evolves from traditional static underwriting to dynamic, usage-based insurance (UBI).”</em></p>
+</blockquote>
+<hr>
+</section>
+<section id="part-1-business-context-insurance-economics" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-business-context-insurance-economics">Part 1: Business Context &amp; Insurance Economics</h2>
+<section id="q1-an-auc-of-0.65-seems-modest.-why-couldnt-you-achieve-0.85-or-0.90" class="level3">
+<h3 class="anchored" data-anchor-id="q1-an-auc-of-0.65-seems-modest.-why-couldnt-you-achieve-0.85-or-0.90">Q1: “An AUC of 0.65 seems modest. Why couldn’t you achieve 0.85 or 0.90?”</h3>
+<p><strong>The Winning Answer:</strong> &gt; <em>“In insurance underwriting, an AUC of 0.65 is an honest, realistic benchmark for static application data. At policy inception, you only observe demographics and vehicle specs. You cannot observe weather, daily traffic, split-second driver distraction, or road hazards. In academic literature and industry benchmarks for Kaggle’s insurance datasets, AUCs on tabular policy data almost always top out between 0.63 and 0.67. If a candidate presents an AUC of 0.85+ on this dataset, they almost certainly have target leakage (such as accidentally including post-accident claim identifiers). What matters commercially is <strong>risk concentration</strong>: our model identifies a subset of drivers filing at 1.5× the baseline rate and captures 68% of all losses ahead of time.”</em></p>
+<hr>
+</section>
+<section id="q2-your-precision-is-only-9.-how-does-an-insurance-company-monetize-a-model-that-is-wrong-91-of-the-time" class="level3">
+<h3 class="anchored" data-anchor-id="q2-your-precision-is-only-9.-how-does-an-insurance-company-monetize-a-model-that-is-wrong-91-of-the-time">Q2: “Your precision is only 9%. How does an insurance company monetize a model that is wrong 91% of the time?”</h3>
+<p><strong>The Winning Answer:</strong> &gt; <em>“Precision must always be evaluated relative to the <strong>base rate</strong>. In this population, only 6% of drivers file a claim. If you pick drivers at random, precision is 6%. At 9%, our model concentrates risk by <strong>50% over baseline</strong>.</em> &gt; &gt; <em>In insurance, the goal is not binary classification (‘will this person crash tomorrow, yes or no?’). The goal is <strong>loss cost estimation</strong> and <strong>adverse selection avoidance</strong>:</em> &gt; 1. <strong>Tiered Pricing:</strong> We don’t decline the 91% who haven’t claimed yet; we adjust their base rates by <span class="math inline">\(+15\text{–}30\%\)</span> to match their elevated risk pool. &gt; 2. <strong>Underwriting Routing:</strong> Flagged policies undergo secondary underwriting review or carry slightly higher deductibles. &gt; 3. <strong>Loss Ratio Improvement:</strong> Because the model captures 68% of all claim payouts, correctly pricing that sub-population protects the insurer’s combined ratio by millions of dollars annually.”*</p>
+<hr>
+</section>
+<section id="q3-why-did-safety-tech-like-brake-assist-is_brake_assist_yes-show-a-positive-coefficient-for-claim-risk-0.09" class="level3">
+<h3 class="anchored" data-anchor-id="q3-why-did-safety-tech-like-brake-assist-is_brake_assist_yes-show-a-positive-coefficient-for-claim-risk-0.09">Q3: “Why did safety tech like Brake Assist (<code>is_brake_assist_Yes</code>) show a positive coefficient for claim risk (+0.09)?”</h3>
+<p><strong>The Winning Answer:</strong> &gt; <em>“This is a well-known industry phenomenon often called the <strong>luxury/tech proxy effect</strong> or <strong>Peltzman risk compensation</strong>:</em> &gt; 1. <strong>Sensor Replacement Costs:</strong> Vehicles equipped with Advanced Driver Assistance Systems (ADAS) have ultrasonic sensors, cameras, and radar units embedded in the front bumper and windshield. A minor fender-bender that costs $300 on a basic car easily costs $2,000+ on an ADAS-equipped car, pushing minor incidents over the deductible and into reported insurance claims. &gt; 2. <strong>Trim Level Proxy:</strong> Brake assist is standard on higher-end, newer trim packages, which carry comprehensive collision coverage and higher repair rates.”*</p>
+<hr>
+</section>
+<section id="q4-why-did-vehicle-age-age_of_car-have-a-massive-negative-coefficient--3.53" class="level3">
+<h3 class="anchored" data-anchor-id="q4-why-did-vehicle-age-age_of_car-have-a-massive-negative-coefficient--3.53">Q4: “Why did vehicle age (<code>age_of_car</code>) have a massive negative coefficient (-3.53)?”</h3>
+<p><strong>The Winning Answer:</strong> &gt; <em>“Vehicle age is the single strongest protective factor in the dataset. Older vehicles have heavily depreciated book values. Owners of older cars frequently:<em> &gt; </em> Drop comprehensive and collision coverage, retaining liability-only. &gt; * Choose not to claim minor dents or scratches because the repair cost is near or below their $500 or $1,000 deductible, and they want to protect their claims-free discount. &gt; * Conversely, brand-new car owners carry full coverage and file claims for minor cosmetic damage to maintain the vehicle’s resale value.”</em></p>
+<hr>
+</section>
+<section id="q5-why-does-longer-policy-tenure-increase-claim-risk-0.85" class="level3">
+<h3 class="anchored" data-anchor-id="q5-why-does-longer-policy-tenure-increase-claim-risk-0.85">Q5: “Why does longer policy tenure increase claim risk (+0.85)?”</h3>
+<p><strong>The Winning Answer:</strong> &gt; <em>“In a 6-month observation window, brand-new policyholders are often in a ‘grace’ or low-utilization phase, or drive more conservatively during probationary onboarding. Long-tenured policyholders have higher policy confidence, know how to navigate the claims department, and feel entitled to utilize the coverage they have paid into for years without fearing immediate policy cancellation.”</em></p>
+<hr>
+</section>
+</section>
+<section id="part-2-statistical-machine-learning-rigor" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-statistical-machine-learning-rigor">Part 2: Statistical &amp; Machine Learning Rigor</h2>
+<section id="q6-why-use-variance-inflation-factor-vif-instead-of-just-checking-a-correlation-heatmap" class="level3">
+<h3 class="anchored" data-anchor-id="q6-why-use-variance-inflation-factor-vif-instead-of-just-checking-a-correlation-heatmap">Q6: “Why use Variance Inflation Factor (VIF) instead of just checking a correlation heatmap?”</h3>
+<p><strong>The Winning Answer:</strong> &gt; <em>“Pairwise Pearson correlation only measures the linear relationship between <strong>two</strong> variables at a time. It cannot detect <strong>group multicollinearity</strong>, where a single feature is a linear combination of three or four other features combined.</em> &gt; &gt; <em>VIF solves this by running an <strong>auxiliary regression</strong> of feature <span class="math inline">\(X_i\)</span> against all other features combined: &gt; <span class="math display">\[\text{VIF}_i = \frac{1}{1 - R_i^2}\]</span> &gt; </em>In our dataset, vehicle specs (length, width, cylinders, displacement, and brake types) were completely deterministic given the car model code (<span class="math inline">\(R^2 = 1.0 \implies \text{VIF} = \infty\)</span>). Iterative VIF pruning systematically eliminated 56 redundant dimensions down to an orthogonal subset (<span class="math inline">\(VIF \le 5.0\)</span>, or <span class="math inline">\(R^2 \le 0.80\)</span>), stabilizing coefficient variance.”*</p>
+<hr>
+</section>
+<section id="q7-why-use-stepwise-logistic-regression-if-you-were-going-to-use-histgradientboosting-anyway" class="level3">
+<h3 class="anchored" data-anchor-id="q7-why-use-stepwise-logistic-regression-if-you-were-going-to-use-histgradientboosting-anyway">Q7: “Why use Stepwise Logistic Regression if you were going to use HistGradientBoosting anyway?”</h3>
+<p><strong>The Winning Answer:</strong> &gt; <em>“In regulated insurance environments, state insurance commissioners (like the DOI in the US or PRA/FCA in the UK) require transparent, auditable rating factors. You cannot submit an unconstrained black-box neural network or gradient boosted tree for filed base rates.<em> &gt; &gt; </em>Stepwise Logit gave us the <strong>parametric baseline</strong>: interpretable log-odds coefficients (<span class="math inline">\(\beta\)</span>) that actuaries can directly audit. Then, the Model Bake-Off gave HistGradientBoosting the full post-VIF feature space to evaluate whether non-linear combinations and feature interactions could capture additional risk (raising CV AUC from 0.610 to 0.651). We used Stepwise for inference, and boosting for prediction.”</em></p>
+<hr>
+</section>
+<section id="q8-how-does-your-stepwise-selection-algorithm-decide-when-to-stop" class="level3">
+<h3 class="anchored" data-anchor-id="q8-how-does-your-stepwise-selection-algorithm-decide-when-to-stop">Q8: “How does your Stepwise Selection algorithm decide when to stop?”</h3>
+<p><strong>The Winning Answer:</strong> &gt; <em>“It uses <strong>Bidirectional Stepwise Selection</strong> with alternating forward and backward passes:</em> &gt; 1. <strong>Forward Step:</strong> Tests every excluded feature and adds the one with the smallest <span class="math inline">\(p\)</span>-value, provided <span class="math inline">\(p &lt; 0.05\)</span>. &gt; 2. <strong>Backward Step:</strong> Re-evaluates all included features; if adding the new feature inflated an older feature’s <span class="math inline">\(p\)</span>-value above <span class="math inline">\(0.05\)</span>, the redundant feature is dropped. &gt; 3. <strong>Stopping Rule:</strong> It stops as soon as the model reaches equilibrium: <strong>nothing left outside is significant enough to enter (<span class="math inline">\(p &lt; 0.05\)</span>), and nothing inside is weak enough to leave (<span class="math inline">\(p &gt; 0.05\)</span>).</strong>”*</p>
+<hr>
+</section>
+<section id="q9-how-did-you-ensure-there-was-no-data-leakage-in-your-cross-validation-pipeline" class="level3">
+<h3 class="anchored" data-anchor-id="q9-how-did-you-ensure-there-was-no-data-leakage-in-your-cross-validation-pipeline">Q9: “How did you ensure there was no data leakage in your cross-validation pipeline?”</h3>
+<p><strong>The Winning Answer:</strong> &gt; <em>“We encapsulated preprocessing inside an <code>sklearn.pipeline.Pipeline</code>:<em> &gt; <code>python &gt; Pipeline([ &gt;     ('scaler', StandardScaler()), &gt;     ('clf', LogisticRegression(class_weight='balanced')) &gt; ]) &gt;</code> &gt; </em>If you call <code>fit_transform</code> on the entire training set before cross-validation, the mean and standard deviation of the validation fold leak into the training fold. By embedding <code>StandardScaler</code> inside the pipeline within <code>GridSearchCV</code>, scaling is fit strictly on the 4 training folds and applied to the 5th validation fold.<em> &gt; </em>Furthermore, for tree ensembles (<code>RandomForest</code> and <code>HistGradientBoosting</code>), we avoided scaling entirely because tree splitting and histogram binning are scale-invariant, preserving the clean discrete nature of our one-hot dummy variables.”</em></p>
+<hr>
+</section>
+<section id="q10-why-did-youdens-j-threshold-land-at-0.496-instead-of-something-like-0.10" class="level3">
+<h3 class="anchored" data-anchor-id="q10-why-did-youdens-j-threshold-land-at-0.496-instead-of-something-like-0.10">Q10: “Why did Youden’s J threshold land at 0.496 instead of something like 0.10?”</h3>
+<p><strong>The Winning Answer:</strong> &gt; <em>“Because all our models were trained with <code>class_weight='balanced'</code>. In an unweighted model, probabilities reflect the raw 6% base rate, so the optimal threshold sits around 0.08–0.12.<em> &gt; </em>However, <code>class_weight='balanced'</code> penalizes false negatives <span class="math inline">\(15\times\)</span> more heavily during gradient descent, which pre-centers the model’s loss landscape around 0.50. Youden’s J (<span class="math inline">\(J = \text{TPR} - \text{FPR}\)</span>) finding 0.496 confirms that the loss function’s internal reweighting already brought the decision boundary into mathematical equilibrium.”</em></p>
+<hr>
+</section>
+</section>
+<section id="part-3-unsupervised-telematics-project-2" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-unsupervised-telematics-project-2">Part 3: Unsupervised Telematics (Project 2)</h2>
+<section id="q11-in-project-2-if-you-already-had-ground-truth-labels-driver_label-why-did-you-treat-it-as-an-unsupervised-problem" class="level3">
+<h3 class="anchored" data-anchor-id="q11-in-project-2-if-you-already-had-ground-truth-labels-driver_label-why-did-you-treat-it-as-an-unsupervised-problem">Q11: “In Project 2, if you already had ground truth labels (<code>driver_label</code>), why did you treat it as an unsupervised problem?”</h3>
+<p><strong>The Winning Answer:</strong> &gt; <em>“In real-world Usage-Based Insurance (UBI), streaming IoT sensors do not come with labels. Nobody is sitting in the passenger seat recording ‘aggressive’ or ‘distracted’. Treating it as a supervised classification problem would be an artificial academic exercise.<em> &gt; </em>By stripping the labels, we simulated the real-world challenge: discovering behavior mathematically from pure sensor physics. We only used the withheld labels at the very end to compute out-of-sample <strong>Adjusted Rand Index (0.999 ARI)</strong>, proving that the unsupervised geometry directly aligns with real driver behavioral archetypes.”</em></p>
+<hr>
+</section>
+<section id="q12-how-did-pca-compress-8-sensor-channels-into-3-dimensions-what-do-they-mean-physically" class="level3">
+<h3 class="anchored" data-anchor-id="q12-how-did-pca-compress-8-sensor-channels-into-3-dimensions-what-do-they-mean-physically">Q12: “How did PCA compress 8+ sensor channels into 3 dimensions? What do they mean physically?”</h3>
+<p><strong>The Winning Answer:</strong> &gt; <em>“The scree plot and elbow method showed that 3 principal components account for <strong>80% of total variance</strong>:<em> &gt; </em> <strong>PC1 (Longitudinal Dynamics / Aggression):</strong> Dominated by <code>throttle</code>, <code>brake_pressure</code>, and longitudinal acceleration (<code>accel_x</code>). It captures aggressive stop-and-go driving. &gt; * <strong>PC2 (Cognitive Load / Distraction):</strong> Dominated by <code>phone_usage</code>, <code>reaction_time</code>, and <code>lane_deviation</code>. It captures swerving and delayed braking caused by distracted driving. &gt; * <strong>PC3 (Lateral Geometry):</strong> Dominated purely by <code>steering_angle</code> (<span class="math inline">\(R = 1.0\)</span>). It captures road curvature and turns, separating driver intent from environmental geometry.”</em></p>
+<hr>
+</section>
+<section id="q13-an-adjusted-rand-score-ari-of-1.00-0.999-is-almost-suspiciously-high.-whats-the-catch" class="level3">
+<h3 class="anchored" data-anchor-id="q13-an-adjusted-rand-score-ari-of-1.00-0.999-is-almost-suspiciously-high.-whats-the-catch">Q13: “An Adjusted Rand Score (ARI) of 1.00 / 0.999 is almost suspiciously high. What’s the catch?”</h3>
+<p><strong>The Winning Answer:</strong> &gt; <em>“I explicitly highlight this in the notebook conclusions: <strong>1.00 ARI is a hallmark of synthetic data.</strong> The underlying data generator created cleanly separable cluster boundaries. In real telematics, sensor noise, GPS drift, road potholes, and weather would create overlapping distributions.<em> &gt; </em>The contribution of this project is the <strong>reproducible pipeline</strong>: filtering multicollinear sensor streams, reducing dimensionality with PCA, clustering with K-Means, and deploying an end-to-end <code>Pipeline</code> that can ingest raw telematics records and assign a driver risk tier out-of-sample.”</em></p>
+<hr>
+</section>
+<section id="q14-if-a-fleet-client-could-only-afford-to-install-two-sensors-to-save-budget-which-two-would-you-recommend" class="level3">
+<h3 class="anchored" data-anchor-id="q14-if-a-fleet-client-could-only-afford-to-install-two-sensors-to-save-budget-which-two-would-you-recommend">Q14: “If a fleet client could only afford to install two sensors to save budget, which two would you recommend?”</h3>
+<p><strong>The Winning Answer:</strong> &gt; <em>“Based on our PCA loadings: &gt; 1. <strong><code>phone_usage</code></strong> (captures the single largest loading on the Distraction axis). &gt; 2. <strong><code>brake_pressure</code></strong> (captures the single largest loading on the Aggression axis). &gt; &gt; With just these two sensors, an insurer can monitor both distinct hazard dimensions without paying for full accelerometer and gyro telemetry suites.”</em></p>
+<hr>
+</section>
+</section>
+<section id="part-4-production-architecture-mlops" class="level2">
+<h2 class="anchored" data-anchor-id="part-4-production-architecture-mlops">Part 4: Production Architecture &amp; MLOps</h2>
+<section id="q15-how-would-you-deploy-these-two-pipelines-into-production" class="level3">
+<h3 class="anchored" data-anchor-id="q15-how-would-you-deploy-these-two-pipelines-into-production">Q15: “How would you deploy these two pipelines into production?”</h3>
+<p><strong>The Winning Answer:</strong> &gt; * <strong>For Claim Prediction (Batch/REST Underwriting):</strong> &gt; * Export the fitted scikit-learn <code>Pipeline</code> via ONNX or MLflow. &gt; * Wrap it in a FastAPI microservice running in a container (Docker/Kubernetes). &gt; * When a customer requests a quote online, the quote engine calls the REST API; the model returns a risk score and percentile tier in <span class="math inline">\(&lt; 20\text{ ms}\)</span> to dynamically set underwriting approval and deductibles. &gt; &gt; * <strong>For Telematics Profiling (Streaming IoT Architecture):</strong> &gt; * Telematics data streams from mobile SDKs or OBD-II dongles via <strong>Apache Kafka</strong>. &gt; * A streaming engine (<strong>Apache Flink</strong> or <strong>Spark Streaming</strong>) computes rolling 5-minute aggregations (mean throttle, braking jerk, phone screen-on time). &gt; * Because PCA and K-Means centroids are simple linear matrix multiplications, the inference is lightweight enough to run either on the stream worker or <strong>directly on the driver’s smartphone</strong> (edge inference), syncing only weekly cluster scores to the cloud to preserve driver battery and cellular data.”*</p>
+<hr>
+</section>
+<section id="q16-how-would-you-monitor-these-models-in-production" class="level3">
+<h3 class="anchored" data-anchor-id="q16-how-would-you-monitor-these-models-in-production">Q16: “How would you monitor these models in production?”</h3>
+<p><strong>The Winning Answer:</strong> &gt; * <strong>Data Drift &amp; Covariate Shift:</strong> Compute the <strong>Population Stability Index (PSI)</strong> and <strong>Wasserstein Distance</strong> on incoming feature distributions monthly (e.g., tracking if car age distribution shifts toward newer vehicles). If <span class="math inline">\(\text{PSI} &gt; 0.25\)</span>, trigger retraining alerts. &gt; * <strong>Concept Drift:</strong> Compare predicted claim probabilities against actual loss runs over rolling 6-month reporting windows using <strong>Brier Score</strong> and <strong>Calibration Curves</strong>. &gt; * <strong>Fairness &amp; Bias Auditing:</strong> Monitor approval and pricing differentials across geographic clusters (<code>area_cluster</code>) and policyholder age brackets to ensure compliance with insurance fair-lending regulations.”*</p>
+<hr>
+</section>
+</section>
+<section id="part-5-3-smart-questions-you-should-ask-the-interviewer" class="level2">
+<h2 class="anchored" data-anchor-id="part-5-3-smart-questions-you-should-ask-the-interviewer">Part 5: 3 Smart Questions YOU Should Ask the Interviewer</h2>
+<p>At the end of the interview, ask these questions to demonstrate high-level strategic thinking:</p>
+<ol type="1">
+<li><em>“How does the data science team currently collaborate with actuaries and underwriting when introducing non-linear models like gradient boosting?”</em></li>
+<li><em>“What is the infrastructure roadmap here for streaming telematics or real-time feature stores versus traditional batch scoring?”</em></li>
+<li><em>“When evaluating pricing models, does the team optimize directly for underwriting loss ratio, or do you incorporate price elasticity and policyholder retention curves?”</em></li>
+</ol>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/migue-rc\.github\.io\/car-insurance");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -149,13 +149,13 @@ window.Quarto = {
 <meta property="og:title" content="Predicting Car Insurance Claims">
 <meta property="og:description" content="Two end-to-end machine learning projects on car insurance claims and driver telematics.">
 <meta property="og:image" content="https://migue-rc.github.io/car-insurance/insurance-claim_files/figure-html/cell-4-output-1.png">
-<meta property="og:image:height" content="990">
-<meta property="og:image:width" content="1189">
+<meta property="og:image:height" content="1980">
+<meta property="og:image:width" content="2379">
 <meta name="twitter:title" content="Predicting Car Insurance Claims">
 <meta name="twitter:description" content="Two end-to-end machine learning projects on car insurance claims and driver telematics.">
 <meta name="twitter:image" content="https://migue-rc.github.io/car-insurance/insurance-claim_files/figure-html/cell-4-output-1.png">
-<meta name="twitter:image-height" content="990">
-<meta name="twitter:image-width" content="1189">
+<meta name="twitter:image-height" content="1980">
+<meta name="twitter:image-width" content="2379">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -357,13 +357,19 @@ window.Quarto = {
   <li><a href="#data-audit" id="toc-data-audit" class="nav-link active" data-scroll-target="#data-audit">1. Data Audit</a></li>
   <li><a href="#data-engineering" id="toc-data-engineering" class="nav-link" data-scroll-target="#data-engineering">2. Data Engineering</a>
   <ul class="collapse">
-  <li><a href="#the-plan" id="toc-the-plan" class="nav-link" data-scroll-target="#the-plan">The plan</a></li>
+  <li><a href="#the-plan" id="toc-the-plan" class="nav-link" data-scroll-target="#the-plan">The Plan</a></li>
   </ul></li>
-  <li><a href="#multicollinearity-and-vif" id="toc-multicollinearity-and-vif" class="nav-link" data-scroll-target="#multicollinearity-and-vif">3. Multicollinearity and VIF</a></li>
+  <li><a href="#multicollinearity-and-vif" id="toc-multicollinearity-and-vif" class="nav-link" data-scroll-target="#multicollinearity-and-vif">3. Multicollinearity and VIF</a>
+  <ul class="collapse">
+  <li><a href="#why-is-it-harmful" id="toc-why-is-it-harmful" class="nav-link" data-scroll-target="#why-is-it-harmful">Why is it harmful?</a></li>
+  <li><a href="#interpreting-vif-scores-selecting-the-threshold" id="toc-interpreting-vif-scores-selecting-the-threshold" class="nav-link" data-scroll-target="#interpreting-vif-scores-selecting-the-threshold">Interpreting VIF Scores &amp; Selecting the Threshold</a></li>
+  <li><a href="#the-iterative-pruning-rule" id="toc-the-iterative-pruning-rule" class="nav-link" data-scroll-target="#the-iterative-pruning-rule">The Iterative Pruning Rule</a></li>
+  </ul></li>
   <li><a href="#statistical-modeling-stepwise-logistic-regression" id="toc-statistical-modeling-stepwise-logistic-regression" class="nav-link" data-scroll-target="#statistical-modeling-stepwise-logistic-regression">4. Statistical Modeling: Stepwise Logistic Regression</a>
   <ul class="collapse">
-  <li><a href="#lower-claim-risk-by-coefficient-size" id="toc-lower-claim-risk-by-coefficient-size" class="nav-link" data-scroll-target="#lower-claim-risk-by-coefficient-size">Lower claim risk (by coefficient size)</a></li>
-  <li><a href="#higher-claim-risk-by-coefficient-size" id="toc-higher-claim-risk-by-coefficient-size" class="nav-link" data-scroll-target="#higher-claim-risk-by-coefficient-size">Higher claim risk (by coefficient size)</a></li>
+  <li><a href="#how-stepwise-selection-works" id="toc-how-stepwise-selection-works" class="nav-link" data-scroll-target="#how-stepwise-selection-works">How Stepwise Selection Works</a></li>
+  <li><a href="#why-this-matters-for-insurance" id="toc-why-this-matters-for-insurance" class="nav-link" data-scroll-target="#why-this-matters-for-insurance">Why This Matters for Insurance</a></li>
+  <li><a href="#key-insights-from-feature-impacts-log-odds" id="toc-key-insights-from-feature-impacts-log-odds" class="nav-link" data-scroll-target="#key-insights-from-feature-impacts-log-odds">Key Insights from Feature Impacts (Log-Odds)</a></li>
   </ul></li>
   <li><a href="#model-bake-off" id="toc-model-bake-off" class="nav-link" data-scroll-target="#model-bake-off">5. Model Bake-Off</a></li>
   <li><a href="#threshold-tuning" id="toc-threshold-tuning" class="nav-link" data-scroll-target="#threshold-tuning">6. Threshold Tuning</a>
@@ -754,12 +760,12 @@ memory usage: 19.7 MB</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="insurance-claim_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="insurance-claim_files/figure-html/cell-4-output-1.png" width="1189" height="990" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="8cbb53803ac6823c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-04-30T00:23:32.754487Z&quot;,&quot;start_time&quot;:&quot;2026-04-30T00:23:32.720191Z&quot;}}" data-execution_count="14">
+<div id="8cbb53803ac6823c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-04-30T00:23:32.754487Z&quot;,&quot;start_time&quot;:&quot;2026-04-30T00:23:32.720191Z&quot;}}" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Possible model:"</span>)</span>
@@ -771,7 +777,7 @@ memory usage: 19.7 MB</code></pre>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Possible categories:
+<pre><code>Possible model:
 ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9', 'M10', 'M11']
 Possible segments:
 ['A', 'C1', 'C2', 'B2', 'B1', 'Utility']
@@ -783,77 +789,78 @@ Possible engine types:
 <section id="data-engineering" class="level2">
 <h2 class="anchored" data-anchor-id="data-engineering">2. Data Engineering</h2>
 <ol type="1">
-<li>We have a lot of categories per column, if we create a dummy encoding, we are going to have a lot of columns.</li>
-<li>There are some columns that are represented in another one, like for example, the combination of the segment, the model and the engine type will check the majority of the boolean flags.</li>
+<li>Several categorical columns contain high-cardinality values; naive dummy encoding would dramatically expand the feature space.</li>
+<li>Many vehicle specifications are structurally redundant (for example, the specific combination of car model, segment, and engine type uniquely determines many of the boolean feature flags).</li>
 </ol>
 <section id="the-plan" class="level3">
-<h3 class="anchored" data-anchor-id="the-plan">The plan</h3>
-<p>To not completely lose the data, when one category represents less than the 10% of the column, this category will be replaced by the most common category; this is called <strong>bucketing</strong>.</p>
-<p>By bucketing rare categories, we are <strong>protecting the model from overfitting</strong>. Where if not, the model will learn the exact value of the category and have a bad generalization performance.</p>
-<div id="401aed95540a6eed" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:18:28.951247Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:18:28.890864Z&quot;}}" data-execution_count="4">
+<h3 class="anchored" data-anchor-id="the-plan">The Plan</h3>
+<p>To preserve signal while preventing high-cardinality explosion, any category that accounts for <strong>less than 1% of observations</strong> (<code>min_frequency=0.01</code>) is bucketed: - If two or more categories are rare within a column, they are grouped into a consolidated <code>'Other'</code> category. - If only a single category is rare, it is absorbed into the majority class.</p>
+<p>By bucketing rare categories, we <strong>protect downstream models from overfitting</strong> to sparse values that lack sufficient sample support for generalization.</p>
+<div id="401aed95540a6eed" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:18:28.951247Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:18:28.890864Z&quot;}}">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> clean_insurance_data(df, min_frequency<span class="op">=</span><span class="fl">0.01</span>):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Cleans the specific car insurance dataset for statsmodels regression.</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Handles string parsing, binary mapping, rare category bucketing, and dummy encoding.</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Starting data clean-up..."</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    df_clean <span class="op">=</span> df.copy()</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'policy_id'</span> <span class="kw">in</span> df_clean.columns:</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        df_clean <span class="op">=</span> df_clean.drop(<span class="st">'policy_id'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Dropped 'policy_id'."</span>)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Parsing torque and power strings into numbers..."</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    regex_pattern <span class="op">=</span> <span class="vs">r'</span><span class="kw">(</span><span class="pp">[</span><span class="dv">\d</span><span class="ch">\.</span><span class="pp">]</span><span class="op">+</span><span class="kw">)</span><span class="dv">.</span><span class="op">*?</span><span class="vs">@</span><span class="dv">.</span><span class="op">*?</span><span class="kw">(</span><span class="pp">[</span><span class="dv">\d</span><span class="ch">\.</span><span class="pp">]</span><span class="op">+</span><span class="kw">)</span><span class="vs">'</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'max_torque'</span> <span class="kw">in</span> df_clean.columns:</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        df_clean[[<span class="st">'torque_value'</span>, <span class="st">'torque_rpm'</span>]] <span class="op">=</span> df_clean[<span class="st">'max_torque'</span>].<span class="bu">str</span>.extract(regex_pattern).astype(<span class="bu">float</span>)</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        df_clean <span class="op">=</span> df_clean.drop(<span class="st">'max_torque'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'max_power'</span> <span class="kw">in</span> df_clean.columns:</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        df_clean[[<span class="st">'power_value'</span>, <span class="st">'power_rpm'</span>]] <span class="op">=</span> df_clean[<span class="st">'max_power'</span>].<span class="bu">str</span>.extract(regex_pattern).astype(<span class="bu">float</span>)</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        df_clean <span class="op">=</span> df_clean.drop(<span class="st">'max_power'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Mapping 'is_' columns to 1 and 0..."</span>)</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    binary_cols <span class="op">=</span> [col <span class="cf">for</span> col <span class="kw">in</span> df_clean.columns <span class="cf">if</span> col.startswith(<span class="st">'is_'</span>) <span class="kw">and</span> col <span class="op">!=</span> <span class="st">'is_claim'</span>]</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> col <span class="kw">in</span> binary_cols:</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> df_clean[col].dtype <span class="op">==</span> <span class="st">'object'</span>:</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>            df_clean[col] <span class="op">=</span> df_clean[col].<span class="bu">map</span>({<span class="st">'Yes'</span>: <span class="dv">1</span>, <span class="st">'No'</span>: <span class="dv">0</span>, <span class="st">'yes'</span>: <span class="dv">1</span>, <span class="st">'no'</span>: <span class="dv">0</span>})</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    df_clean <span class="op">=</span> df_clean.dropna()</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Bucketing rare categories (threshold: &lt; </span><span class="sc">{</span>min_frequency <span class="op">*</span> <span class="dv">100</span><span class="sc">}</span><span class="ss">% of data)..."</span>)</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    categorical_cols <span class="op">=</span> df_clean.select_dtypes(include<span class="op">=</span>[<span class="st">'object'</span>, <span class="st">'str'</span>]).columns</span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> col <span class="kw">in</span> categorical_cols:</span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>        frequencies <span class="op">=</span> df_clean[col].value_counts(normalize<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>        rare_categories <span class="op">=</span> frequencies[frequencies <span class="op">&lt;</span> min_frequency].index</span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(rare_categories) <span class="op">&gt;</span> <span class="dv">1</span>:</span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>            df_clean[col] <span class="op">=</span> df_clean[col].replace(rare_categories, <span class="st">'Other'</span>)</span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"  - '</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">': grouped </span><span class="sc">{</span><span class="bu">len</span>(rare_categories)<span class="sc">}</span><span class="ss"> rare values into 'Other'"</span>)</span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> <span class="bu">len</span>(rare_categories) <span class="op">==</span> <span class="dv">1</span>:</span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>            majority_class <span class="op">=</span> frequencies.idxmax()</span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>            df_clean[col] <span class="op">=</span> df_clean[col].replace(rare_categories, majority_class)</span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"  - '</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">': absorbed 1 sparse value into majority class '</span><span class="sc">{</span>majority_class<span class="sc">}</span><span class="ss">'"</span>)</span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Applying dummy encoding (drop_first=True)..."</span>)</span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>    df_clean <span class="op">=</span> pd.get_dummies(df_clean, drop_first<span class="op">=</span><span class="va">True</span>, dtype<span class="op">=</span><span class="bu">float</span>)</span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">40</span>)</span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Clean-up complete! Final dataset shape: </span><span class="sc">{</span>df_clean<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> df_clean.drop(<span class="st">'is_claim'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> df_clean[<span class="st">'is_claim'</span>]</span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X, y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Any category with fewer `min_frequency` (total rows are 58,592 so 586 as default value)</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Starting data clean-up..."</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    df_clean <span class="op">=</span> df.copy()</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'policy_id'</span> <span class="kw">in</span> df_clean.columns:</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        df_clean <span class="op">=</span> df_clean.drop(<span class="st">'policy_id'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Dropped 'policy_id'."</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Parsing torque and power strings into numbers..."</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    regex_pattern <span class="op">=</span> <span class="vs">r'</span><span class="kw">(</span><span class="pp">[</span><span class="dv">\d</span><span class="ch">\.</span><span class="pp">]</span><span class="op">+</span><span class="kw">)</span><span class="dv">.</span><span class="op">*?</span><span class="vs">@</span><span class="dv">.</span><span class="op">*?</span><span class="kw">(</span><span class="pp">[</span><span class="dv">\d</span><span class="ch">\.</span><span class="pp">]</span><span class="op">+</span><span class="kw">)</span><span class="vs">'</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'max_torque'</span> <span class="kw">in</span> df_clean.columns:</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        df_clean[[<span class="st">'torque_value'</span>, <span class="st">'torque_rpm'</span>]] <span class="op">=</span> df_clean[<span class="st">'max_torque'</span>].<span class="bu">str</span>.extract(regex_pattern).astype(<span class="bu">float</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        df_clean <span class="op">=</span> df_clean.drop(<span class="st">'max_torque'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'max_power'</span> <span class="kw">in</span> df_clean.columns:</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        df_clean[[<span class="st">'power_value'</span>, <span class="st">'power_rpm'</span>]] <span class="op">=</span> df_clean[<span class="st">'max_power'</span>].<span class="bu">str</span>.extract(regex_pattern).astype(<span class="bu">float</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        df_clean <span class="op">=</span> df_clean.drop(<span class="st">'max_power'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Mapping 'is_' columns to 1 and 0..."</span>)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    binary_cols <span class="op">=</span> [col <span class="cf">for</span> col <span class="kw">in</span> df_clean.columns <span class="cf">if</span> col.startswith(<span class="st">'is_'</span>) <span class="kw">and</span> col <span class="op">!=</span> <span class="st">'is_claim'</span>]</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> col <span class="kw">in</span> binary_cols:</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> df_clean[col].dtype <span class="op">==</span> <span class="st">'object'</span>:</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>            df_clean[col] <span class="op">=</span> df_clean[col].<span class="bu">map</span>({<span class="st">'Yes'</span>: <span class="dv">1</span>, <span class="st">'No'</span>: <span class="dv">0</span>, <span class="st">'yes'</span>: <span class="dv">1</span>, <span class="st">'no'</span>: <span class="dv">0</span>})</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    df_clean <span class="op">=</span> df_clean.dropna()</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Bucketing rare categories (threshold: &lt; </span><span class="sc">{</span>min_frequency <span class="op">*</span> <span class="dv">100</span><span class="sc">}</span><span class="ss">% of data)..."</span>)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    categorical_cols <span class="op">=</span> df_clean.select_dtypes(include<span class="op">=</span>[<span class="st">'object'</span>, <span class="st">'str'</span>]).columns</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> col <span class="kw">in</span> categorical_cols:</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>        frequencies <span class="op">=</span> df_clean[col].value_counts(normalize<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>        rare_categories <span class="op">=</span> frequencies[frequencies <span class="op">&lt;</span> min_frequency].index</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(rare_categories) <span class="op">&gt;</span> <span class="dv">1</span>:</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>            df_clean[col] <span class="op">=</span> df_clean[col].replace(rare_categories, <span class="st">'Other'</span>)</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"  - '</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">': grouped </span><span class="sc">{</span><span class="bu">len</span>(rare_categories)<span class="sc">}</span><span class="ss"> rare values into 'Other'"</span>)</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> <span class="bu">len</span>(rare_categories) <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>            majority_class <span class="op">=</span> frequencies.idxmax()</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>            df_clean[col] <span class="op">=</span> df_clean[col].replace(rare_categories, majority_class)</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"  - '</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">': absorbed 1 sparse value into majority class '</span><span class="sc">{</span>majority_class<span class="sc">}</span><span class="ss">'"</span>)</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Applying dummy encoding (drop_first=True)..."</span>)</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>    df_clean <span class="op">=</span> pd.get_dummies(df_clean, drop_first<span class="op">=</span><span class="va">True</span>, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">40</span>)</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Clean-up complete! Final dataset shape: </span><span class="sc">{</span>df_clean<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> df_clean.drop(<span class="st">'is_claim'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> df_clean[<span class="st">'is_claim'</span>]</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X, y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="8c05a8b9ed83b26b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:18:32.420524Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:18:32.410612Z&quot;}}" data-execution_count="5">
+<div id="8c05a8b9ed83b26b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:18:32.420524Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:18:32.410612Z&quot;}}" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -884,7 +891,7 @@ Possible engine types:
 <span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="e3617d1959a28944" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:18:36.593354Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:18:35.118024Z&quot;}}" data-execution_count="6">
+<div id="e3617d1959a28944" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:18:36.593354Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:18:35.118024Z&quot;}}" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> clean_insurance_data(df_claim)</span>
@@ -907,7 +914,7 @@ Clean-up complete! Final dataset shape: (58592, 81)</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="insurance-claim_files/figure-html/cell-8-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="insurance-claim_files/figure-html/cell-8-output-2.png" width="1708" height="1589" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -916,12 +923,13 @@ Clean-up complete! Final dataset shape: (58592, 81)</code></pre>
 </section>
 <section id="multicollinearity-and-vif" class="level2">
 <h2 class="anchored" data-anchor-id="multicollinearity-and-vif">3. Multicollinearity and VIF</h2>
-<p>Multicollinearity is when <strong>two or more predictor</strong> variables in a regression model are <strong>highly linearly correlated</strong>, so they provide <strong>overlapping information</strong> about the outcome.</p>
-<p>for example if we want to predict the price in a house, we know that basically how big and where is located are the main predictors anywhere, and for example, if we have multiples coulmns about the location of the house, zipcode, coordinates, county, neiborhod, probably we are overlapping information with them.</p>
-<p>Why it is bad?</p>
-<p>This kind of overlapping can poison your final model, for example in the simplest linear reggresion, we know that basically we have a model with weights and a bias, in order to the model to predict the correct final price, we train a model, it compensates by pushing neighborhood weight high and zipcode weight negative, new data arrives with an unseen neighborhood but same zipcode, the negative zipcode weight tanks the prediction.</p>
+<p>Multicollinearity occurs when <strong>two or more predictor variables</strong> in a regression model are <strong>highly linearly correlated</strong>, providing overlapping information about the outcome.</p>
+<p>For example, in real estate pricing, square footage and room count—or redundant location proxies like zip code, county, and neighborhood—provide heavily overlapping signals.</p>
+<section id="why-is-it-harmful" class="level3">
+<h3 class="anchored" data-anchor-id="why-is-it-harmful">Why is it harmful?</h3>
+<p>Collinearity inflates the variance of coefficient estimates and destabilizes parameter signs. In a linear model, the solver may compensate by assigning an artificially large positive weight to one collinear feature and a large negative weight to its duplicate. When evaluating unseen data where that balance shifts slightly, predictions can swing wildly, destroying interpretability and generalizability.</p>
 <pre class="mermaid"><code>graph LR
-A( Model gets confused ) --&gt; B( Math breaks down ) --&gt; C( You can't trust the numbers) --&gt; D(You can't interpret the results ) --&gt; E( You can't act on them )</code></pre>
+A( Model gets confused ) --&gt; B( Math breaks down ) --&gt; C( You can't trust the numbers) --&gt; D( You can't interpret the results ) --&gt; E( You can't act on them )</code></pre>
 <div id="f5c7db699cd1e5f9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:24:14.288544Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:19:31.186604Z&quot;}}" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
@@ -932,157 +940,57 @@ A( Model gets confused ) --&gt; B( Math breaks down ) --&gt; C( You can't trust 
 <div class="cell-output cell-output-stdout">
 <pre><code>Starting VIF Multicollinearity Check...
 
-----------------------------------------</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'make' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'airbags' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'displacement' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'cylinder' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'gear_box' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'turning_radius' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'length' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'width' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'height' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'gross_weight' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'ncap_rating' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'torque_value' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'torque_rpm' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'power_value' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'power_rpm' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'segment_B1' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'segment_B2' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'segment_C1' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'segment_C2' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'segment_Utility' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'model_M10' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'model_M2' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'model_M3' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'model_M4' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'model_M5' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'model_M6' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'model_M7' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'model_M8' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'model_M9' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'fuel_type_Diesel' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'fuel_type_Petrol' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'engine_type_1.2 L K Series Engine' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'engine_type_1.2 L K12N Dualjet' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'engine_type_1.5 L U2 CRDi' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'engine_type_1.5 Turbocharged Revotorq' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'engine_type_F8D Petrol Engine' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'engine_type_G12B' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'engine_type_K Series Dual jet' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'engine_type_K10C' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'engine_type_i-DTEC' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'is_esc_Yes' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'is_adjustable_steering_Yes' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'is_tpms_Yes' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'is_parking_sensors_Yes' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'is_parking_camera_Yes' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'rear_brakes_type_Drum' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'steering_type_Manual' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'is_rear_window_wiper_Yes' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'is_power_door_locks_Yes' (VIF: inf)</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Dropped: 'is_central_locking_Yes' (VIF: inf)
+----------------------------------------
+Dropped: 'make' (VIF: inf)
+Dropped: 'airbags' (VIF: inf)
+Dropped: 'displacement' (VIF: inf)
+Dropped: 'cylinder' (VIF: inf)
+Dropped: 'gear_box' (VIF: inf)
+Dropped: 'turning_radius' (VIF: inf)
+Dropped: 'length' (VIF: inf)
+Dropped: 'width' (VIF: inf)
+Dropped: 'height' (VIF: inf)
+Dropped: 'gross_weight' (VIF: inf)
+Dropped: 'ncap_rating' (VIF: inf)
+Dropped: 'torque_value' (VIF: inf)
+Dropped: 'torque_rpm' (VIF: inf)
+Dropped: 'power_value' (VIF: inf)
+Dropped: 'power_rpm' (VIF: inf)
+Dropped: 'segment_B1' (VIF: inf)
+Dropped: 'segment_B2' (VIF: inf)
+Dropped: 'segment_C1' (VIF: inf)
+Dropped: 'segment_C2' (VIF: inf)
+Dropped: 'segment_Utility' (VIF: inf)
+Dropped: 'model_M10' (VIF: inf)
+Dropped: 'model_M2' (VIF: inf)
+Dropped: 'model_M3' (VIF: inf)
+Dropped: 'model_M4' (VIF: inf)
+Dropped: 'model_M5' (VIF: inf)
+Dropped: 'model_M6' (VIF: inf)
+Dropped: 'model_M7' (VIF: inf)
+Dropped: 'model_M8' (VIF: inf)
+Dropped: 'model_M9' (VIF: inf)
+Dropped: 'fuel_type_Diesel' (VIF: inf)
+Dropped: 'fuel_type_Petrol' (VIF: inf)
+Dropped: 'engine_type_1.2 L K Series Engine' (VIF: inf)
+Dropped: 'engine_type_1.2 L K12N Dualjet' (VIF: inf)
+Dropped: 'engine_type_1.5 L U2 CRDi' (VIF: inf)
+Dropped: 'engine_type_1.5 Turbocharged Revotorq' (VIF: inf)
+Dropped: 'engine_type_F8D Petrol Engine' (VIF: inf)
+Dropped: 'engine_type_G12B' (VIF: inf)
+Dropped: 'engine_type_K Series Dual jet' (VIF: inf)
+Dropped: 'engine_type_K10C' (VIF: inf)
+Dropped: 'engine_type_i-DTEC' (VIF: inf)
+Dropped: 'is_esc_Yes' (VIF: inf)
+Dropped: 'is_adjustable_steering_Yes' (VIF: inf)
+Dropped: 'is_tpms_Yes' (VIF: inf)
+Dropped: 'is_parking_sensors_Yes' (VIF: inf)
+Dropped: 'is_parking_camera_Yes' (VIF: inf)
+Dropped: 'rear_brakes_type_Drum' (VIF: inf)
+Dropped: 'steering_type_Manual' (VIF: inf)
+Dropped: 'is_rear_window_wiper_Yes' (VIF: inf)
+Dropped: 'is_power_door_locks_Yes' (VIF: inf)
+Dropped: 'is_central_locking_Yes' (VIF: inf)
 Dropped: 'is_driver_seat_height_adjustable_Yes' (VIF: 178.12)
 Dropped: 'is_front_fog_lights_Yes' (VIF: 18.56)
 Dropped: 'population_density' (VIF: 17.91)
@@ -1097,40 +1005,66 @@ Features dropped: 56</code></pre>
 <div id="bbc243389df8b27e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:24:14.306054Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:24:14.296483Z&quot;}}" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dropped_features)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dropped_features)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>['make', 'airbags', 'displacement', 'cylinder', 'gear_box', 'turning_radius', 'length', 'width', 'height', 'gross_weight', 'ncap_rating', 'torque_value', 'torque_rpm', 'power_value', 'power_rpm', 'segment_B1', 'segment_B2', 'segment_C1', 'segment_C2', 'segment_Utility', 'model_M10', 'model_M2', 'model_M3', 'model_M4', 'model_M5', 'model_M6', 'model_M7', 'model_M8', 'model_M9', 'fuel_type_Diesel', 'fuel_type_Petrol', 'engine_type_1.2 L K Series Engine', 'engine_type_1.2 L K12N Dualjet', 'engine_type_1.5 L U2 CRDi', 'engine_type_1.5 Turbocharged Revotorq', 'engine_type_F8D Petrol Engine', 'engine_type_G12B', 'engine_type_K Series Dual jet', 'engine_type_K10C', 'engine_type_i-DTEC', 'is_esc_Yes', 'is_adjustable_steering_Yes', 'is_tpms_Yes', 'is_parking_sensors_Yes', 'is_parking_camera_Yes', 'rear_brakes_type_Drum', 'steering_type_Manual', 'is_rear_window_wiper_Yes', 'is_power_door_locks_Yes', 'is_central_locking_Yes', 'is_driver_seat_height_adjustable_Yes', 'is_front_fog_lights_Yes', 'population_density', 'is_rear_window_washer_Yes', 'steering_type_Power', 'area_cluster_C8']</code></pre>
 </div>
 </div>
-<p><span class="math display">\[VIF = \frac{1}{1 - R^2}\]</span></p>
-<p>When one of the variables, like for example <code>engine_type_K10C</code>, can be 100% predicted by other variable, its <span class="math inline">\(R^2\)</span> score is exactly <span class="math inline">\(1.0\)</span>. That’s why we have the warning of divided by zero, and the VIF is infinite.</p>
-<p>This is a win because we are eliminating the multicollinearity from the model.</p>
-<p>for example, inside some models, all those variables don’t change across them.</p>
+<p>53018VIF_i = rac{1}{1 - R_i^2}53018</p>
+</section>
+<section id="interpreting-vif-scores-selecting-the-threshold" class="level3">
+<h3 class="anchored" data-anchor-id="interpreting-vif-scores-selecting-the-threshold">Interpreting VIF Scores &amp; Selecting the Threshold</h3>
+<ul>
+<li><strong>= 1.0$ (^2 = 0%$):</strong> Completely orthogonal; zero correlation with other features.</li>
+<li><strong>= 5.0$ (^2 = 80%$): Our cutoff threshold.</strong> A standard statistical rule of thumb in econometrics and regression modeling. A VIF <span class="math inline">\(&gt; 5.0\)</span> indicates that more than %$ of that variable’s variance is already captured by other predictors in the dataset.</li>
+<li>**= $ (^2 = 100%<span class="math inline">\():** Perfect linear dependency. The auxiliary regression fits with ^2 = 1.0\)</span>, resulting in division by zero. In our dataset, this occurs when vehicle specs (e.g., engine type, cylinders, brake systems) are completely deterministic given the car model.</li>
+</ul>
+</section>
+<section id="the-iterative-pruning-rule" class="level3">
+<h3 class="anchored" data-anchor-id="the-iterative-pruning-rule">The Iterative Pruning Rule</h3>
+<p>We apply a strict stopping rule of <em><span class="math inline">\(\le 5.0\)</span></em>: 1. Calculate VIF across all current features in the dataset. 2. Identify the single feature with the highest VIF exceeding .0$ and drop it. 3. <strong>Recalculate VIF across all remaining features</strong> (dropping one collinear variable immediately deflates the inflated VIF scores of its correlated peers). 4. Repeat iteratively until every remaining feature satisfies <span class="math inline">\(\le 5.0\)</span>.</p>
 <div id="8eecbcda6c181b06" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:24:14.574323Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:24:14.306655Z&quot;}}" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>plot_correlation_heatmap(X_clean, <span class="st">"Correlation Heatmap AFTER VIF (Independent Multicollinearity)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>plot_correlation_heatmap(X_clean, <span class="st">"Correlation Heatmap AFTER VIF (Independent Multicollinearity)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="insurance-claim_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="insurance-claim_files/figure-html/cell-11-output-1.png" width="1711" height="1589" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
+</section>
 <section id="statistical-modeling-stepwise-logistic-regression" class="level2">
 <h2 class="anchored" data-anchor-id="statistical-modeling-stepwise-logistic-regression">4. Statistical Modeling: Stepwise Logistic Regression</h2>
-<p>Before reaching for machine learning, we fit a statistical model. Stepwise selection (p &lt; 0.05 to enter and to stay) distills the 80+ engineered features down to the handful with genuine statistical support, and the fitted coefficients are directly interpretable as log-odds contributions.</p>
+<p>Before deploying complex machine learning algorithms, we fit an interpretable statistical baseline using <strong>Bidirectional Stepwise Logistic Regression</strong> (<code>stepwise_selection_logit</code>).</p>
+<section id="how-stepwise-selection-works" class="level3">
+<h3 class="anchored" data-anchor-id="how-stepwise-selection-works">How Stepwise Selection Works</h3>
+<p>Starting with an empty model, the algorithm tests features in alternating steps:</p>
+<ol type="1">
+<li><strong>Adding features (Forward Step):</strong> It tests every feature outside the model and adds the single one with the strongest statistical evidence (<span class="math inline">\(p &lt; 0.05\)</span>).</li>
+<li><strong>Removing features (Backward Step):</strong> After adding a new feature, it checks if any previously added feature became redundant. If an older feature’s <span class="math inline">\(p\)</span>-value rose above <span class="math inline">\(0.05\)</span>, it gets dropped.</li>
+<li><strong>When does it stop?</strong> The loop finishes when the model stabilizes:
+<ul>
+<li><strong>Nothing left outside is strong enough to enter</strong> (no feature has <span class="math inline">\(p &lt; 0.05\)</span>).</li>
+<li><strong>Nothing inside is weak enough to leave</strong> (all features stay <span class="math inline">\(p \le 0.05\)</span>).</li>
+</ul></li>
+</ol>
+</section>
+<section id="why-this-matters-for-insurance" class="level3">
+<h3 class="anchored" data-anchor-id="why-this-matters-for-insurance">Why This Matters for Insurance</h3>
+<p>This distills the post-VIF feature space down to the core subset with rigorous statistical evidence of predicting claims. The resulting log-odds coefficients (<span class="math inline">\(\beta\)</span>) provide underwriters with transparent, auditable factors rather than a black-box model.</p>
 <div id="c5d95304405da86d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:24:18.522792Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:24:14.583603Z&quot;}}" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels_utils <span class="im">import</span> stepwise_selection_logit</span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(X_clean.columns.tolist())</span>
-<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>best_model, final_features <span class="op">=</span> stepwise_selection_logit(X_clean, y, threshold_in<span class="op">=</span><span class="fl">0.05</span>, threshold_out<span class="op">=</span><span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels_utils <span class="im">import</span> stepwise_selection_logit</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(X_clean.columns.tolist())</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>best_model, final_features <span class="op">=</span> stepwise_selection_logit(X_clean, y, threshold_in<span class="op">=</span><span class="fl">0.05</span>, threshold_out<span class="op">=</span><span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>['policy_tenure', 'age_of_car', 'age_of_policyholder', 'area_cluster_C10', 'area_cluster_C11', 'area_cluster_C12', 'area_cluster_C13', 'area_cluster_C14', 'area_cluster_C15', 'area_cluster_C19', 'area_cluster_C2', 'area_cluster_C3', 'area_cluster_C4', 'area_cluster_C5', 'area_cluster_C6', 'area_cluster_C7', 'area_cluster_C9', 'area_cluster_Other', 'transmission_type_Manual', 'is_rear_window_defogger_Yes', 'is_brake_assist_Yes', 'is_power_steering_Yes', 'is_day_night_rear_view_mirror_Yes', 'is_ecw_Yes']
@@ -1153,12 +1087,12 @@ Stepwise Selection Complete!
 Final number of features: 9</code></pre>
 </div>
 </div>
-<div id="b00e66f3bec6c30e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-02-24T01:15:44.090920291Z&quot;,&quot;start_time&quot;:&quot;2026-02-24T01:15:43.961860592Z&quot;}}" data-execution_count="11">
+<div id="b00e66f3bec6c30e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-02-24T01:15:44.090920291Z&quot;,&quot;start_time&quot;:&quot;2026-02-24T01:15:43.961860592Z&quot;}}" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>best_model.summary()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>best_model.summary()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="12">
 <table class="simpletable caption-top table table-sm table-striped small">
 <caption>Logit Regression Results</caption>
 <tbody>
@@ -1182,13 +1116,13 @@ Final number of features: 9</code></pre>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">Date:</th>
-<td>Mon, 23 Feb 2026</td>
+<td>Wed, 16 Sep 2026</td>
 <th data-quarto-table-cell-role="th">Pseudo R-squ.:</th>
 <td>0.01877</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Time:</th>
-<td>20:15:44</td>
+<td>20:29:12</td>
 <th data-quarto-table-cell-role="th">Log-Likelihood:</th>
 <td>-13669.</td>
 </tr>
@@ -1313,181 +1247,229 @@ Final number of features: 9</code></pre>
 </table>
 </div>
 </div>
-<section id="lower-claim-risk-by-coefficient-size" class="level3">
-<h3 class="anchored" data-anchor-id="lower-claim-risk-by-coefficient-size">Lower claim risk (by coefficient size)</h3>
-<ol type="1">
-<li>The older the car (<code>age_of_car</code>) with -3.53</li>
-<li>Area C9 and C10 (<code>area_cluster</code>) with -0.19</li>
-</ol>
-</section>
-<section id="higher-claim-risk-by-coefficient-size" class="level3">
-<h3 class="anchored" data-anchor-id="higher-claim-risk-by-coefficient-size">Higher claim risk (by coefficient size)</h3>
-<ol type="1">
-<li>The longer someone has the policy (<code>policy_tenure</code>) with 0.84</li>
-<li>The older the driver (<code>age_of_policyholder</code>) with 0.30</li>
-</ol>
-<div id="8aaaefa89cc2c78f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:24:18.608373Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:24:18.537194Z&quot;}}" data-execution_count="12">
+<div id="8aaaefa89cc2c78f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:24:18.608373Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:24:18.537194Z&quot;}}" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels_utils <span class="im">import</span> plot_coef</span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>plot_coef(best_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels_utils <span class="im">import</span> plot_coef</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>plot_coef(best_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="insurance-claim_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="insurance-claim_files/figure-html/cell-14-output-1.png" width="990" height="589" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
+<section id="key-insights-from-feature-impacts-log-odds" class="level3">
+<h3 class="anchored" data-anchor-id="key-insights-from-feature-impacts-log-odds">Key Insights from Feature Impacts (Log-Odds)</h3>
+<p>The regression table above and coefficient plot below display the estimated log-odds coefficients (<span class="math inline">\(\beta\)</span>) with 95% confidence intervals from the Stepwise Logistic Regression model. The baseline (dashed line at <span class="math inline">\(0.0\)</span>) represents no effect. Because coefficients represent log-odds, their exponentiated values yield the <strong>Odds Ratio</strong> (<span class="math inline">\(OR = e^\beta\)</span>):</p>
+<section id="vehicle-age-is-the-strongest-protective-factor-age_of_car-beta--3.53-or-approx-0.03" class="level4">
+<h4 class="anchored" data-anchor-id="vehicle-age-is-the-strongest-protective-factor-age_of_car-beta--3.53-or-approx-0.03">1. Vehicle Age is the Strongest Protective Factor (<code>age_of_car</code>: <span class="math inline">\(\beta = -3.53\)</span>, <span class="math inline">\(OR \approx 0.03\)</span>)</h4>
+<ul>
+<li><strong>The Finding:</strong> Has the single largest effect size in the entire model. As vehicle age increases, claim probability plummets.</li>
+<li><strong>Insurance Rationale:</strong> Brand-new cars carry full comprehensive and collision coverage, and owners file claims for even minor cosmetic damage to protect vehicle resale value. For older cars, drivers often switch to liability-only coverage or absorb minor repair costs out-of-pocket because damage values fall below the deductible.</li>
+</ul>
+</section>
+<section id="policy-tenure-increases-claim-frequency-policy_tenure-beta-0.85-or-approx-2.33" class="level4">
+<h4 class="anchored" data-anchor-id="policy-tenure-increases-claim-frequency-policy_tenure-beta-0.85-or-approx-2.33">2. Policy Tenure Increases Claim Frequency (<code>policy_tenure</code>: <span class="math inline">\(\beta = +0.85\)</span>, <span class="math inline">\(OR \approx 2.33\)</span>)</h4>
+<ul>
+<li><strong>The Finding:</strong> Longer policy relationships are strongly associated with higher claim probability (<span class="math inline">\(&gt;2\times\)</span> odds increase per unit of normalized tenure).</li>
+<li><strong>Insurance Rationale:</strong> Brand-new policyholders exhibit lower claim frequency during initial onboarding periods, whereas long-tenured customers are more comfortable actively utilizing their coverage and navigating the claim process without fear of immediate policy cancellation.</li>
+</ul>
+</section>
+<section id="driver-demographics-age_of_policyholder-beta-0.31-or-approx-1.36" class="level4">
+<h4 class="anchored" data-anchor-id="driver-demographics-age_of_policyholder-beta-0.31-or-approx-1.36">3. Driver Demographics (<code>age_of_policyholder</code>: <span class="math inline">\(\beta = +0.31\)</span>, <span class="math inline">\(OR \approx 1.36\)</span>)</h4>
+<ul>
+<li><strong>The Finding:</strong> Older policyholders exhibit a statistically significant <span class="math inline">\(+36\%\)</span> increase in the odds of filing a claim.</li>
+<li><strong>Insurance Rationale:</strong> Aligns with standard actuarial loss curves where older demographics show increased accident frequencies due to reduced night vision, slower reaction times, or higher medical severity in crashes.</li>
+</ul>
+</section>
+<section id="geographic-territory-segmentation-area_cluster" class="level4">
+<h4 class="anchored" data-anchor-id="geographic-territory-segmentation-area_cluster">4. Geographic Territory Segmentation (<code>area_cluster</code>)</h4>
+<ul>
+<li><strong>High-Risk Territories:</strong> Clusters <code>C4</code> (<span class="math inline">\(\beta = +0.29\)</span>), <code>C3</code> (<span class="math inline">\(\beta = +0.19\)</span>), and <code>C2</code> (<span class="math inline">\(\beta = +0.14\)</span>) significantly elevate claim odds.</li>
+<li><strong>Low-Risk Territories:</strong> Clusters <code>C9</code> (<span class="math inline">\(\beta = -0.20\)</span>) and <code>C10</code> (<span class="math inline">\(\beta = -0.20\)</span>) significantly reduce claim odds.</li>
+<li><strong>Insurance Rationale:</strong> Demonstrates clear territorial risk segmentation driven by urban traffic congestion, road infrastructure quality, and regional claim fraud rates. Insurers can directly translate these into territorial rating factors (e.g., <span class="math inline">\(+15\%\)</span> to <span class="math inline">\(+33\%\)</span> surcharges for C2–C4 vs.&nbsp;<span class="math inline">\(\approx 18\%\)</span> discounts for C9–C10).</li>
+</ul>
+</section>
+<section id="safety-tech-luxury-proxy-is_brake_assist_yes-beta-0.09-or-approx-1.10" class="level4">
+<h4 class="anchored" data-anchor-id="safety-tech-luxury-proxy-is_brake_assist_yes-beta-0.09-or-approx-1.10">5. Safety Tech / Luxury Proxy (<code>is_brake_assist_Yes</code>: <span class="math inline">\(\beta = +0.09\)</span>, <span class="math inline">\(OR \approx 1.10\)</span>)</h4>
+<ul>
+<li><strong>The Finding:</strong> Vehicles equipped with brake assistance show a slight <span class="math inline">\(+10\%\)</span> increase in claim odds.</li>
+<li><strong>Insurance Rationale:</strong> While safety tech prevents collisions, it serves as a proxy for newer, higher-trim vehicles equipped with costly sensors, cameras, and radar units in bumpers. Minor fender-benders that would cost $300 to fix on basic cars easily exceed the $1,000 deductible on tech-heavy vehicles, turning minor incidents into reported insurance claims.</li>
+</ul>
+</section>
+</section>
 </section>
 <section id="model-bake-off" class="level2">
 <h2 class="anchored" data-anchor-id="model-bake-off">5. Model Bake-Off</h2>
-<p>We now compare three model families under identical conditions — <code>GridSearchCV</code> with <code>class_weight='balanced'</code>: <strong>Logistic Regression</strong> (linear baseline), <strong>Random Forest</strong> (bagging), and <strong>HistGradientBoosting</strong> (boosting). If the ensembles beat the linear model, that’s evidence of non-linear risk structure the logit can’t express.</p>
-<div id="7fa2edbe1e93cb65" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:25:28.657680Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:24:18.608938Z&quot;}}" data-execution_count="13">
+<p>We now benchmark three model families under standardized conditions with 5-fold cross-validation and <code>class_weight='balanced'</code>: - <strong>Logistic Regression</strong> (linear baseline, wrapped in a pipeline with <code>StandardScaler</code> to prevent CV fold leakage) - <strong>Random Forest</strong> (bagging ensemble, trained on unscaled features) - <strong>HistGradientBoosting</strong> (gradient boosting ensemble, trained on unscaled features)</p>
+<p><em>Note on feature space:</em> While Stepwise Selection in Section 4 isolated the key linear drivers for inference, we supply the full post-VIF feature space (<code>X_clean</code>) to the bake-off. This allows the non-linear ensembles to evaluate multi-way feature interactions that a linear logit model cannot represent.</p>
+<div id="7fa2edbe1e93cb65" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:25:28.657680Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:24:18.608938Z&quot;}}" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> HistGradientBoostingClassifier</span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">42</span></span>
-<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV</span>
-<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
-<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
-<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a>logReg <span class="op">=</span> <span class="st">'Logistic Regression'</span></span>
-<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>forest <span class="op">=</span> <span class="st">'Random Forest'</span></span>
-<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a>hist <span class="op">=</span> <span class="st">'HistGradientBoosting'</span></span>
-<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> {</span>
-<span id="cb71-14"><a href="#cb71-14" aria-hidden="true" tabindex="-1"></a>    logReg: LogisticRegression(class_weight<span class="op">=</span><span class="st">'balanced'</span>, max_iter<span class="op">=</span><span class="dv">1000</span>, random_state<span class="op">=</span>seed),</span>
-<span id="cb71-15"><a href="#cb71-15" aria-hidden="true" tabindex="-1"></a>    forest: RandomForestClassifier(class_weight<span class="op">=</span><span class="st">'balanced'</span>, random_state<span class="op">=</span>seed),</span>
-<span id="cb71-16"><a href="#cb71-16" aria-hidden="true" tabindex="-1"></a>    hist: HistGradientBoostingClassifier(class_weight<span class="op">=</span><span class="st">'balanced'</span>, random_state<span class="op">=</span>seed)</span>
-<span id="cb71-17"><a href="#cb71-17" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb71-18"><a href="#cb71-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-19"><a href="#cb71-19" aria-hidden="true" tabindex="-1"></a>param_grids <span class="op">=</span> {</span>
-<span id="cb71-20"><a href="#cb71-20" aria-hidden="true" tabindex="-1"></a>    logReg: {</span>
-<span id="cb71-21"><a href="#cb71-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">'C'</span>: [<span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">1.0</span>, <span class="fl">10.0</span>],</span>
-<span id="cb71-22"><a href="#cb71-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">'solver'</span>: [<span class="st">'liblinear'</span>, <span class="st">'saga'</span>]</span>
-<span id="cb71-23"><a href="#cb71-23" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb71-24"><a href="#cb71-24" aria-hidden="true" tabindex="-1"></a>    forest: {</span>
-<span id="cb71-25"><a href="#cb71-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">'n_estimators'</span>: [<span class="dv">100</span>, <span class="dv">300</span>],</span>
-<span id="cb71-26"><a href="#cb71-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">'max_depth'</span>: [<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>],</span>
-<span id="cb71-27"><a href="#cb71-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">'min_samples_leaf'</span>: [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>]</span>
-<span id="cb71-28"><a href="#cb71-28" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb71-29"><a href="#cb71-29" aria-hidden="true" tabindex="-1"></a>    hist: {</span>
-<span id="cb71-30"><a href="#cb71-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">'learning_rate'</span>: [<span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>],</span>
-<span id="cb71-31"><a href="#cb71-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">'max_iter'</span>: [<span class="dv">100</span>, <span class="dv">300</span>],</span>
-<span id="cb71-32"><a href="#cb71-32" aria-hidden="true" tabindex="-1"></a>        <span class="st">'max_depth'</span>: [<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>],</span>
-<span id="cb71-33"><a href="#cb71-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">'l2_regularization'</span>: [<span class="fl">0.0</span>, <span class="fl">1.0</span>]</span>
-<span id="cb71-34"><a href="#cb71-34" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb71-35"><a href="#cb71-35" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb71-36"><a href="#cb71-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-37"><a href="#cb71-37" aria-hidden="true" tabindex="-1"></a>best_models <span class="op">=</span> {}</span>
-<span id="cb71-38"><a href="#cb71-38" aria-hidden="true" tabindex="-1"></a>best_scores <span class="op">=</span> {}</span>
-<span id="cb71-39"><a href="#cb71-39" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
-<span id="cb71-40"><a href="#cb71-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-41"><a href="#cb71-41" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
-<span id="cb71-42"><a href="#cb71-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-43"><a href="#cb71-43" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">'const'</span> <span class="kw">in</span> X_clean.columns:</span>
-<span id="cb71-44"><a href="#cb71-44" aria-hidden="true" tabindex="-1"></a>    X_clean <span class="op">=</span> X_clean.drop(<span class="st">'const'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb71-45"><a href="#cb71-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-46"><a href="#cb71-46" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X_clean, y, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span>seed, stratify<span class="op">=</span>y)</span>
-<span id="cb71-47"><a href="#cb71-47" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
-<span id="cb71-48"><a href="#cb71-48" aria-hidden="true" tabindex="-1"></a>X_train_scaled <span class="op">=</span> pd.DataFrame(scaler.fit_transform(X_train), columns<span class="op">=</span>X_train.columns)</span>
-<span id="cb71-49"><a href="#cb71-49" aria-hidden="true" tabindex="-1"></a>X_test_scaled <span class="op">=</span> pd.DataFrame(scaler.transform(X_test), columns<span class="op">=</span>X_test.columns)</span>
-<span id="cb71-50"><a href="#cb71-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-51"><a href="#cb71-51" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name <span class="kw">in</span> models.keys():</span>
-<span id="cb71-52"><a href="#cb71-52" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Running Grid Search for </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">..."</span>)</span>
-<span id="cb71-53"><a href="#cb71-53" aria-hidden="true" tabindex="-1"></a>    start_time <span class="op">=</span> time.time()</span>
-<span id="cb71-54"><a href="#cb71-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-55"><a href="#cb71-55" aria-hidden="true" tabindex="-1"></a>    grid <span class="op">=</span> GridSearchCV(</span>
-<span id="cb71-56"><a href="#cb71-56" aria-hidden="true" tabindex="-1"></a>        estimator<span class="op">=</span>models[name],</span>
-<span id="cb71-57"><a href="#cb71-57" aria-hidden="true" tabindex="-1"></a>        param_grid<span class="op">=</span>param_grids[name],</span>
-<span id="cb71-58"><a href="#cb71-58" aria-hidden="true" tabindex="-1"></a>        scoring<span class="op">=</span><span class="st">'roc_auc'</span>,</span>
-<span id="cb71-59"><a href="#cb71-59" aria-hidden="true" tabindex="-1"></a>        cv<span class="op">=</span><span class="dv">5</span>,</span>
-<span id="cb71-60"><a href="#cb71-60" aria-hidden="true" tabindex="-1"></a>        n_jobs<span class="op">=-</span><span class="dv">1</span></span>
-<span id="cb71-61"><a href="#cb71-61" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb71-62"><a href="#cb71-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-63"><a href="#cb71-63" aria-hidden="true" tabindex="-1"></a>    grid.fit(X_train_scaled, y_train)</span>
-<span id="cb71-64"><a href="#cb71-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-65"><a href="#cb71-65" aria-hidden="true" tabindex="-1"></a>    elapsed_time <span class="op">=</span> (time.time() <span class="op">-</span> start_time) <span class="op">/</span> <span class="dv">60</span></span>
-<span id="cb71-66"><a href="#cb71-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-67"><a href="#cb71-67" aria-hidden="true" tabindex="-1"></a>    best_models[name] <span class="op">=</span> grid.best_estimator_</span>
-<span id="cb71-68"><a href="#cb71-68" aria-hidden="true" tabindex="-1"></a>    best_scores[name] <span class="op">=</span> grid.best_score_</span>
-<span id="cb71-69"><a href="#cb71-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-70"><a href="#cb71-70" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  -&gt; Best Cross-Validated AUC: </span><span class="sc">{</span>grid<span class="sc">.</span>best_score_<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb71-71"><a href="#cb71-71" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  -&gt; Optimal Params: </span><span class="sc">{</span>grid<span class="sc">.</span>best_params_<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb71-72"><a href="#cb71-72" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  -&gt; Time taken: </span><span class="sc">{</span>elapsed_time<span class="sc">:.2f}</span><span class="ss"> minutes</span><span class="ch">\n</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> HistGradientBoostingClassifier, RandomForestClassifier</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV, train_test_split</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">42</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>logReg <span class="op">=</span> <span class="st">'Logistic Regression'</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>forest <span class="op">=</span> <span class="st">'Random Forest'</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>hist <span class="op">=</span> <span class="st">'HistGradientBoosting'</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>models <span class="op">=</span> {</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    logReg: Pipeline([</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'scaler'</span>, StandardScaler()),</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'clf'</span>, LogisticRegression(class_weight<span class="op">=</span><span class="st">'balanced'</span>, max_iter<span class="op">=</span><span class="dv">1000</span>, random_state<span class="op">=</span>seed))</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    ]),</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    forest: RandomForestClassifier(class_weight<span class="op">=</span><span class="st">'balanced'</span>, random_state<span class="op">=</span>seed),</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    hist: HistGradientBoostingClassifier(class_weight<span class="op">=</span><span class="st">'balanced'</span>, random_state<span class="op">=</span>seed)</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>param_grids <span class="op">=</span> {</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    logReg: {</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">'clf__C'</span>: [<span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">1.0</span>, <span class="fl">10.0</span>],</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">'clf__solver'</span>: [<span class="st">'liblinear'</span>, <span class="st">'saga'</span>]</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    forest: {</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">'n_estimators'</span>: [<span class="dv">100</span>, <span class="dv">300</span>],</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">'max_depth'</span>: [<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>],</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">'min_samples_leaf'</span>: [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>]</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>    hist: {</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>        <span class="st">'learning_rate'</span>: [<span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>],</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>        <span class="st">'max_iter'</span>: [<span class="dv">100</span>, <span class="dv">300</span>],</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>        <span class="st">'max_depth'</span>: [<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>],</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>        <span class="st">'l2_regularization'</span>: [<span class="fl">0.0</span>, <span class="fl">1.0</span>]</span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>best_models <span class="op">=</span> {}</span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>best_scores <span class="op">=</span> {}</span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">'const'</span> <span class="kw">in</span> X_clean.columns:</span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a>    X_clean <span class="op">=</span> X_clean.drop(<span class="st">'const'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a>    X_clean, y, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span>seed, stratify<span class="op">=</span>y</span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name <span class="kw">in</span> models.keys():</span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Running Grid Search for </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">..."</span>)</span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a>    start_time <span class="op">=</span> time.time()</span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a>    grid <span class="op">=</span> GridSearchCV(</span>
+<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a>        estimator<span class="op">=</span>models[name],</span>
+<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a>        param_grid<span class="op">=</span>param_grids[name],</span>
+<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a>        scoring<span class="op">=</span><span class="st">'roc_auc'</span>,</span>
+<span id="cb21-59"><a href="#cb21-59" aria-hidden="true" tabindex="-1"></a>        cv<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb21-60"><a href="#cb21-60" aria-hidden="true" tabindex="-1"></a>        n_jobs<span class="op">=-</span><span class="dv">1</span></span>
+<span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-62"><a href="#cb21-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-63"><a href="#cb21-63" aria-hidden="true" tabindex="-1"></a>    grid.fit(X_train, y_train)</span>
+<span id="cb21-64"><a href="#cb21-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-65"><a href="#cb21-65" aria-hidden="true" tabindex="-1"></a>    elapsed_time <span class="op">=</span> (time.time() <span class="op">-</span> start_time) <span class="op">/</span> <span class="dv">60</span></span>
+<span id="cb21-66"><a href="#cb21-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-67"><a href="#cb21-67" aria-hidden="true" tabindex="-1"></a>    best_models[name] <span class="op">=</span> grid.best_estimator_</span>
+<span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a>    best_scores[name] <span class="op">=</span> grid.best_score_</span>
+<span id="cb21-69"><a href="#cb21-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-70"><a href="#cb21-70" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  -&gt; Best Cross-Validated AUC: </span><span class="sc">{</span>grid<span class="sc">.</span>best_score_<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb21-71"><a href="#cb21-71" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  -&gt; Optimal Params: </span><span class="sc">{</span>grid<span class="sc">.</span>best_params_<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-72"><a href="#cb21-72" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  -&gt; Time taken: </span><span class="sc">{</span>elapsed_time<span class="sc">:.2f}</span><span class="ss"> minutes</span><span class="ch">\n</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Running Grid Search for Logistic Regression...
   -&gt; Best Cross-Validated AUC: 0.6097
-  -&gt; Optimal Params: {'C': 0.01, 'solver': 'saga'}
-  -&gt; Time taken: 0.12 minutes
+  -&gt; Optimal Params: {'clf__C': 0.01, 'clf__solver': 'liblinear'}
+  -&gt; Time taken: 0.03 minutes
 
 Running Grid Search for Random Forest...
   -&gt; Best Cross-Validated AUC: 0.6480
   -&gt; Optimal Params: {'max_depth': 5, 'min_samples_leaf': 5, 'n_estimators': 300}
-  -&gt; Time taken: 0.73 minutes
+  -&gt; Time taken: 0.38 minutes
 
 Running Grid Search for HistGradientBoosting...
   -&gt; Best Cross-Validated AUC: 0.6511
   -&gt; Optimal Params: {'l2_regularization': 0.0, 'learning_rate': 0.05, 'max_depth': 3, 'max_iter': 100}
-  -&gt; Time taken: 0.32 minutes
+  -&gt; Time taken: 0.17 minutes
 </code></pre>
 </div>
 </div>
-<p>We are going to calculate what is the optimal threshold, because probably keeping it at 50%, we will miss a lot of claims.</p>
 </section>
 <section id="threshold-tuning" class="level2">
 <h2 class="anchored" data-anchor-id="threshold-tuning">6. Threshold Tuning</h2>
-<p>We now take a deeper look at the winning model from the bake-off — <strong>HistGradientBoosting</strong> — and tune its decision threshold using Youden’s J statistic, which balances the true-positive rate against the false-positive rate.</p>
-<div id="8b3ab9f30e0c1cd1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:25:28.834016Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:25:28.692885Z&quot;}}" data-execution_count="14">
+<p>In imbalanced classification, the default 0.50 decision threshold is arbitrary. Because our models were trained with <code>class_weight='balanced'</code>, the loss function was already reweighted to penalize missed positive claims, which brings the effective balance point near 0.50.</p>
+<p>We now inspect the winning <strong>HistGradientBoosting</strong> model and tune the final operational decision boundary using <strong>Youden’s J statistic</strong> (<span class="math inline">\(J = \text{TPR} - \text{FPR}\)</span>), finding the probability threshold that maximizes separation between True Positive Rate and False Positive Rate on unseen test data.</p>
+<div id="8b3ab9f30e0c1cd1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:25:28.834016Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:25:28.692885Z&quot;}}" data-execution_count="15">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix, classification_report</span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_curve</span>
-<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>best_model <span class="op">=</span> best_models[hist]</span>
-<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>y_probs <span class="op">=</span> best_model.predict_proba(X_test_scaled)[:, <span class="dv">1</span>]</span>
-<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>fpr, tpr, thresholds <span class="op">=</span> roc_curve(y_test, y_probs)</span>
-<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>j_scores <span class="op">=</span> tpr <span class="op">-</span> fpr</span>
-<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a>best_index <span class="op">=</span> np.argmax(j_scores)</span>
-<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>optimal_threshold <span class="op">=</span> thresholds[best_index]</span>
-<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">50</span>)</span>
-<span id="cb73-13"><a href="#cb73-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"DEFAULT THRESHOLD: 0.5000"</span>)</span>
-<span id="cb73-14"><a href="#cb73-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"OPTIMAL THRESHOLD: </span><span class="sc">{</span>optimal_threshold<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb73-15"><a href="#cb73-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">50</span>)</span>
-<span id="cb73-16"><a href="#cb73-16" aria-hidden="true" tabindex="-1"></a>y_pred_optimal <span class="op">=</span> (y_probs <span class="op">&gt;=</span> optimal_threshold).astype(<span class="bu">int</span>)</span>
-<span id="cb73-17"><a href="#cb73-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-18"><a href="#cb73-18" aria-hidden="true" tabindex="-1"></a>cm_optimal <span class="op">=</span> confusion_matrix(y_test, y_pred_optimal)</span>
-<span id="cb73-19"><a href="#cb73-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-20"><a href="#cb73-20" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">5</span>))</span>
-<span id="cb73-21"><a href="#cb73-21" aria-hidden="true" tabindex="-1"></a>sns.heatmap(cm_optimal, annot<span class="op">=</span><span class="va">True</span>, fmt<span class="op">=</span><span class="st">'d'</span>, cmap<span class="op">=</span><span class="st">'Reds'</span>,</span>
-<span id="cb73-22"><a href="#cb73-22" aria-hidden="true" tabindex="-1"></a>            xticklabels<span class="op">=</span>[<span class="st">'Predicted: Safe (0)'</span>, <span class="st">'Predicted: Claim (1)'</span>],</span>
-<span id="cb73-23"><a href="#cb73-23" aria-hidden="true" tabindex="-1"></a>            yticklabels<span class="op">=</span>[<span class="st">'Actual: Safe (0)'</span>, <span class="st">'Actual: Claim (1)'</span>])</span>
-<span id="cb73-24"><a href="#cb73-24" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="ss">f'Confusion Matrix (Optimal Threshold = </span><span class="sc">{</span>optimal_threshold<span class="sc">:.3f}</span><span class="ss">)'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
-<span id="cb73-25"><a href="#cb73-25" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb73-26"><a href="#cb73-26" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb73-27"><a href="#cb73-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-28"><a href="#cb73-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Classification Report (Using Optimal Threshold):"</span>)</span>
-<span id="cb73-29"><a href="#cb73-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, y_pred_optimal))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> (</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    confusion_matrix,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    classification_report,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    roc_curve,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    roc_auc_score,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    average_precision_score</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>best_model <span class="op">=</span> best_models[hist]</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>y_probs <span class="op">=</span> best_model.predict_proba(X_test)[:, <span class="dv">1</span>]</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>test_roc_auc <span class="op">=</span> roc_auc_score(y_test, y_probs)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>test_pr_auc <span class="op">=</span> average_precision_score(y_test, y_probs)</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>fpr, tpr, thresholds <span class="op">=</span> roc_curve(y_test, y_probs)</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>j_scores <span class="op">=</span> tpr <span class="op">-</span> fpr</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>best_index <span class="op">=</span> np.argmax(j_scores)</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>optimal_threshold <span class="op">=</span> thresholds[best_index]</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">50</span>)</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"TEST SET GENERALIZATION:"</span>)</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  -&gt; ROC-AUC Score:          </span><span class="sc">{</span>test_roc_auc<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  -&gt; PR-AUC (Avg Precision): </span><span class="sc">{</span>test_pr_auc<span class="sc">:.4f}</span><span class="ss"> (Baseline: </span><span class="sc">{</span>y_test<span class="sc">.</span>mean()<span class="sc">:.4f}</span><span class="ss">)"</span>)</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"DEFAULT THRESHOLD:           0.5000"</span>)</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"OPTIMAL THRESHOLD (Youden):  </span><span class="sc">{</span>optimal_threshold<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">50</span>)</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>y_pred_optimal <span class="op">=</span> (y_probs <span class="op">&gt;=</span> optimal_threshold).astype(<span class="bu">int</span>)</span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>cm_optimal <span class="op">=</span> confusion_matrix(y_test, y_pred_optimal)</span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">5</span>))</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>sns.heatmap(</span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>    cm_optimal,</span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>    annot<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>    fmt<span class="op">=</span><span class="st">'d'</span>,</span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">'Reds'</span>,</span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>    xticklabels<span class="op">=</span>[<span class="st">'Predicted: Safe (0)'</span>, <span class="st">'Predicted: Claim (1)'</span>],</span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>    yticklabels<span class="op">=</span>[<span class="st">'Actual: Safe (0)'</span>, <span class="st">'Actual: Claim (1)'</span>]</span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="ss">f'Confusion Matrix (Optimal Threshold = </span><span class="sc">{</span>optimal_threshold<span class="sc">:.3f}</span><span class="ss">)'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Classification Report (Using Optimal Threshold):"</span>)</span>
+<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, y_pred_optimal))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>==================================================
-DEFAULT THRESHOLD: 0.5000
-OPTIMAL THRESHOLD: 0.4956
+TEST SET GENERALIZATION:
+  -&gt; ROC-AUC Score:          0.6505
+  -&gt; PR-AUC (Avg Precision): 0.1061 (Baseline: 0.0639)
+DEFAULT THRESHOLD:           0.5000
+OPTIMAL THRESHOLD (Youden):  0.4956
 ==================================================</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="insurance-claim_files/figure-html/cell-16-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="insurance-claim_files/figure-html/cell-16-output-2.png" width="659" height="490" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1509,40 +1491,40 @@ weighted avg       0.91      0.55      0.66     17578
 <h3 class="anchored" data-anchor-id="precision-predicted-claims-that-were-claims-divided-by-all-predicted-claims">Precision (predicted claims that were claims divided by all predicted claims)</h3>
 <p>We achieved a precision of 9% (765 / (765 + 7495)).</p>
 <p>While 9% might sound low at first glance, the baseline standard for a claim in this dataset is only 6%. This means if we pick any driver at random, there is only a 6% chance they will file a claim.</p>
-<p>We isolated a risk pool where the chance of a claim is nearly double the average. The 7495 drivers flagged by the model who didn’t crash yet are not necessarily safe drivers; they possess the exact same high-risk features as those who did crash. This risky behavior just hasn’t caught up to them yet.</p>
+<p>We isolated a risk pool where the chance of a claim is nearly double the average. The 7,495 drivers flagged by the model who didn’t crash yet <strong>are not necessarily safe drivers</strong>; they possess the exact same high-risk features as those who did crash. This risky behavior just hasn’t caught up to them yet.</p>
 </section>
 <section id="recall-predicted-claims-that-were-claims-divided-by-all-actual-claims" class="level3">
 <h3 class="anchored" data-anchor-id="recall-predicted-claims-that-were-claims-divided-by-all-actual-claims">Recall (predicted claims that were claims divided by all actual claims)</h3>
 <p>We achieved a recall of 68% (765 / (765 + 359)).</p>
-<p>This means that out of the entire pool of drivers who actually got into an accident and filed a claim, the model identified and flagged 58% of them in advance.</p>
+<p>This means that out of the entire pool of drivers who actually got into an accident and filed a claim, the model identified and flagged 68% of them in advance.</p>
 <p>Instead of being blindsided by these payouts, the business was warned about the majority of them ahead of time, allowing us to price their policies correctly.</p>
-<div id="216a5e5c8148b4c4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:25:31.222325Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:25:28.842929Z&quot;}}" data-execution_count="15">
+<div id="216a5e5c8148b4c4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;ExecuteTime&quot;,&quot;value&quot;:{&quot;end_time&quot;:&quot;2026-03-19T14:25:31.222325Z&quot;,&quot;start_time&quot;:&quot;2026-03-19T14:25:28.842929Z&quot;}}" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shap</span>
-<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Calculating SHAP values"</span>)</span>
-<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>explainer <span class="op">=</span> shap.TreeExplainer(best_model)</span>
-<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>shap_values <span class="op">=</span> explainer.shap_values(X_test_scaled)</span>
-<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">isinstance</span>(shap_values, <span class="bu">list</span>):</span>
-<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>    shap_values_to_plot <span class="op">=</span> shap_values[<span class="dv">1</span>]</span>
-<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> <span class="bu">len</span>(shap_values.shape) <span class="op">==</span> <span class="dv">3</span>:</span>
-<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a>    shap_values_to_plot <span class="op">=</span> shap_values[:, :, <span class="dv">1</span>]</span>
-<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a>    shap_values_to_plot <span class="op">=</span> shap_values</span>
-<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
-<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"SHAP Summary Plot: Drivers of Insurance Claims"</span>, fontsize<span class="op">=</span><span class="dv">16</span>, pad<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb76-16"><a href="#cb76-16" aria-hidden="true" tabindex="-1"></a>shap.summary_plot(shap_values_to_plot, X_test_scaled, plot_type<span class="op">=</span><span class="st">"dot"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shap</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Calculating SHAP values..."</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>explainer <span class="op">=</span> shap.TreeExplainer(best_model)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>shap_values <span class="op">=</span> explainer.shap_values(X_test)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">isinstance</span>(shap_values, <span class="bu">list</span>):</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    shap_values_to_plot <span class="op">=</span> shap_values[<span class="dv">1</span>]</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> <span class="bu">len</span>(shap_values.shape) <span class="op">==</span> <span class="dv">3</span>:</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    shap_values_to_plot <span class="op">=</span> shap_values[:, :, <span class="dv">1</span>]</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    shap_values_to_plot <span class="op">=</span> shap_values</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"SHAP Summary Plot: Drivers of Insurance Claims"</span>, fontsize<span class="op">=</span><span class="dv">16</span>, pad<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>shap.summary_plot(shap_values_to_plot, X_test, plot_type<span class="op">=</span><span class="st">"dot"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>Calculating SHAP values</code></pre>
+<pre><code>Calculating SHAP values...</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="insurance-claim_files/figure-html/cell-17-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="insurance-claim_files/figure-html/cell-17-output-2.png" width="805" height="939" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1552,7 +1534,7 @@ weighted avg       0.91      0.55      0.66     17578
 <section id="conclusions" class="level2">
 <h2 class="anchored" data-anchor-id="conclusions">7. Conclusions</h2>
 <ol type="1">
-<li>brand new policyholders are the safest drivers, while long-term nature steadily increases claim risk.</li>
+<li>Brand new policyholders are the safest drivers, while longer policy tenure steadily increases claim risk.</li>
 <li>The age of the vehicle acts as a massive risk shield. Brand new cars are most likely to file a claim, likely due to drivers using comprehensive coverage to fix minor damage on new investments.</li>
 <li>Vehicles equipped with luxury features cluster together as a distinct risk factor, likely because their parts are significantly more expensive to repair, easily pushing minor incidents over the deductible.</li>
 </ol>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Miguel R">
-<meta name="dcterms.date" content="2026-07-04">
+<meta name="dcterms.date" content="2026-09-16">
 <meta name="description" content="Two end-to-end machine learning projects: claim prediction on a highly imbalanced insurance dataset, and unsupervised driver-behavior profiling from telematics sensors.">
 
 <title>Auto Insurance &amp; Telematics Analytics</title>
@@ -86,14 +86,14 @@ ul.task-list li input[type="checkbox"] {
 <meta property="og:description" content="Two end-to-end machine learning projects: claim prediction on a highly imbalanced insurance dataset, and unsupervised driver-behavior profiling from telematics sensors.">
 <meta property="og:image" content="https://migue-rc.github.io/car-insurance/charts/flow-chart-prev.png">
 <meta property="og:image:alt" content="Project Flow Chart">
-<meta property="og:image:height" content="1324">
-<meta property="og:image:width" content="2500">
+<meta property="og:image:height" content="1275">
+<meta property="og:image:width" content="2400">
 <meta name="twitter:title" content="Auto Insurance &amp; Telematics Analytics">
 <meta name="twitter:description" content="Two end-to-end machine learning projects: claim prediction on a highly imbalanced insurance dataset, and unsupervised driver-behavior profiling from telematics sensors.">
 <meta name="twitter:image" content="https://migue-rc.github.io/car-insurance/charts/flow-chart-prev.png">
 <meta name="twitter:image:alt" content="Project Flow Chart">
-<meta name="twitter:image-height" content="1324">
-<meta name="twitter:image-width" content="2500">
+<meta name="twitter:image-height" content="1275">
+<meta name="twitter:image-width" content="2400">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -292,7 +292,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#core-tech-stack" id="toc-core-tech-stack" class="nav-link active" data-scroll-target="#core-tech-stack">Core Tech Stack</a></li>
+  <li><a href="#executive-summary-the-strategic-narrative" id="toc-executive-summary-the-strategic-narrative" class="nav-link active" data-scroll-target="#executive-summary-the-strategic-narrative">Executive Summary &amp; The Strategic Narrative</a></li>
+  <li><a href="#core-tech-stack" id="toc-core-tech-stack" class="nav-link" data-scroll-target="#core-tech-stack">Core Tech Stack</a></li>
   <li><a href="#project-architecture-overview" id="toc-project-architecture-overview" class="nav-link" data-scroll-target="#project-architecture-overview">Project Architecture Overview</a></li>
   <li><a href="#project-1-predictive-modeling-for-car-insurance-claims" id="toc-project-1-predictive-modeling-for-car-insurance-claims" class="nav-link" data-scroll-target="#project-1-predictive-modeling-for-car-insurance-claims">Project 1: Predictive Modeling for Car Insurance Claims</a>
   <ul class="collapse">
@@ -340,7 +341,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 4, 2026</p>
+      <p class="date">September 16, 2026</p>
     </div>
   </div>
   
@@ -355,6 +356,15 @@ ul.task-list li input[type="checkbox"] {
 <p>Welcome. This repository features two end-to-end machine learning projects focused on the automotive and insurance industries. Together, they demonstrate how to extract actionable business intelligence from both unlabelled telematics sensors and highly imbalanced insurance datasets.</p>
 <p>The goal is to showcase end-to-end analytical thinking, robust statistical methodology, and machine learning models built to drive business value.</p>
 <hr>
+<section id="executive-summary-the-strategic-narrative" class="level3">
+<h3 class="anchored" data-anchor-id="executive-summary-the-strategic-narrative">Executive Summary &amp; The Strategic Narrative</h3>
+<ul>
+<li><strong>Project 1 (Supervised Risk Scoring):</strong> Built an end-to-end underwriting engine on 58,500+ policies under extreme class imbalance (6% base rate). Pruned 56 collinear features with iterative VIF, used Stepwise Logistic Regression to extract parametric risk factors, and tuned a boosted tree ensemble to capture <strong>68% of all claims</strong> while isolating a high-risk pool with <strong>1.5× baseline claim frequency</strong>.</li>
+<li><strong>Project 2 (Unsupervised Telematics Profiling):</strong> Designed a production-ready telematics pipeline that compresses high-frequency vehicle sensors into 3 behavioral dimensions (Aggression, Distraction, Steering Geometry) via PCA (~80% variance explained). Segmented drivers via K-Means, achieving <strong>near-perfect out-of-sample recovery (0.999 ARI)</strong> against withheld ground truth.</li>
+<li><strong>The Strategic Bridge:</strong> Demonstrates the natural industry evolution from static underwriting forms (AUC ~0.65 ceiling) to dynamic, sensor-driven Usage-Based Insurance (UBI).</li>
+</ul>
+<hr>
+</section>
 <section id="core-tech-stack" class="level3">
 <h3 class="anchored" data-anchor-id="core-tech-stack">Core Tech Stack</h3>
 <p><strong>Languages &amp; Frameworks:</strong> Python (&gt;=3.12) <strong>Libraries:</strong> <code>scikit-learn</code>, <code>pandas</code>, <code>numpy</code>, <code>statsmodels</code>, <code>shap</code>, <code>plotly</code>, <code>matplotlib</code>, <code>seaborn</code></p>
@@ -389,7 +399,7 @@ ul.task-list li input[type="checkbox"] {
 <ol type="1">
 <li><strong>Data Engineering &amp; Feature Selection:</strong> Cleaned string representations of torque/power, mapped binary flags, and dynamically bucketed sparse geographic categories (&lt; 1% frequency). Dropped 56 highly correlated features using a strict VIF threshold of 5.0.</li>
 <li><strong>Statistical Modeling:</strong> Deployed a custom Stepwise Logistic Regression (p-value &lt; 0.05) to isolate the statistically significant features. <em>Insight: older cars dramatically reduce claim risk, while premium feature packages (<code>is_brake_assist_Yes</code>) and policy tenure increase it.</em></li>
-<li><strong>Model Bake-Off:</strong> Ran <code>GridSearchCV</code> over Logistic Regression, Random Forest, and HistGradientBoosting with <code>class_weight='balanced'</code>. <strong>HistGradientBoosting</strong> won with a cross-validated AUC of 0.651, narrowly ahead of Random Forest (0.648) and clearly ahead of the linear model (0.610) — evidence of non-linear risk factors.</li>
+<li><strong>Model Bake-Off:</strong> Ran <code>GridSearchCV</code> over Logistic Regression, Random Forest, and HistGradientBoosting with <code>class_weight='balanced'</code>. Encapsulated preprocessing inside an <code>sklearn.pipeline.Pipeline</code> to guarantee zero cross-validation fold leakage, training linear baselines with standard scaling and tree models on natural discrete features. <strong>HistGradientBoosting</strong> won with a cross-validated AUC of 0.651, narrowly ahead of Random Forest (0.648) and clearly ahead of the linear model (0.610) — evidence of non-linear risk factors.</li>
 <li><strong>Threshold Tuning:</strong> Used Youden’s J statistic to shift the decision boundary (optimal threshold 0.496) for the imbalanced reality of the data.</li>
 </ol>
 </section>
@@ -446,7 +456,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Adjusted Rand Score (ARI):</strong> 1.00</li>
 <li><strong>Homogeneity Score:</strong> 1.00</li>
 </ul>
-<p><strong>A necessary caveat:</strong> a perfect score is a hallmark of <em>synthetic</em> data — the generator produced cleanly separable behaviors, and real telematics data would never cluster this perfectly. The value demonstrated here is the pipeline itself: compressing raw sensor streams with PCA, discovering structure without labels, and validating rigorously against withheld ground truth. On this dataset, that pipeline recovers the true driver profiles exactly.</p>
+<p><strong>A necessary caveat:</strong> a perfect score is a hallmark of <em>synthetic</em> data, the generator produced cleanly separable behaviors, and real telematics data would never cluster this perfectly. The value demonstrated here is the pipeline itself: compressing raw sensor streams with PCA, discovering structure without labels, and validating rigorously against withheld ground truth. On this dataset, that pipeline recovers the true driver profiles exactly.</p>
 
 
 </section>
